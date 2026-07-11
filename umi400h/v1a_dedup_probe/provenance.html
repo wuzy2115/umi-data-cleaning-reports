@@ -1,0 +1,98 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>umi400h — provenance</title><script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 1100px;
+         margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #1a1a1a; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; }
+  th { background: #f0f0f0; cursor: pointer; user-select: none; }
+  th:hover { background: #e2e2e2; }
+  .media-wall { display: flex; flex-wrap: wrap; gap: 12px; }
+  .media-item { max-width: 260px; }
+  .media-item video, .media-item img { max-width: 100%; border-radius: 4px; display: block; }
+  .media-item.rep { border: 3px solid #2e7d32; padding: 4px; border-radius: 6px; }
+  .media-item.member { border: 3px solid #c62828; padding: 4px; border-radius: 6px; }
+  .caption { font-size: 0.8rem; color: #555; word-break: break-all; }
+  h1, h2 { border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  .plotly-fig { width: 100%; max-width: 900px; height: 420px; }
+</style>
+</head><body><h1>umi400h — provenance</h1><h2>git sha</h2>
+<div>b11d5ba06eaeff6f852585a83f99f622bfaf8a62</div>
+<h2>Threshold provenance</h2>
+<table><thead><tr><th onclick="sortTable(this)">key</th><th onclick="sortTable(this)">value</th><th onclick="sortTable(this)">confirmed</th><th onclick="sortTable(this)">mined_from</th></tr></thead><tbody><tr><td>motion_range</td><td>0.35</td><td>True</td><td>SMOKE-PLACEHOLDER</td></tr><tr><td>motion_speed</td><td>0.6</td><td>True</td><td>SMOKE-PLACEHOLDER</td></tr><tr><td>tau_vis</td><td>0.988</td><td>True</td><td>SMOKE-PLACEHOLDER</td></tr><tr><td>action_dist</td><td>0.065</td><td>True</td><td>SMOKE-PLACEHOLDER</td></tr></tbody></table>
+<h2>config_snapshot.json</h2>
+<div><pre>{
+  &quot;segments_version&quot;: &quot;v2_annotation_20260609&quot;,
+  &quot;git_sha&quot;: &quot;b11d5ba06eaeff6f852585a83f99f622bfaf8a62&quot;,
+  &quot;config_hash&quot;: &quot;36ac2c118bef&quot;,
+  &quot;config&quot;: {
+    &quot;name&quot;: &quot;umi400h&quot;,
+    &quot;root&quot;: &quot;/mnt/public/data/train_data/dataset_400h_annotation_v2_shards&quot;,
+    &quot;workdir&quot;: &quot;/mnt/data/wuzhuoyuan/cleaning/umi400h&quot;,
+    &quot;lowdim_version&quot;: &quot;v2_pose6d_20260609&quot;,
+    &quot;segments_version&quot;: &quot;v2_annotation_20260609&quot;,
+    &quot;siglip_model&quot;: &quot;google/siglip2-base-patch16-256&quot;,
+    &quot;device&quot;: &quot;cuda&quot;,
+    &quot;decode_workers&quot;: 32,
+    &quot;gpu_batch&quot;: 256,
+    &quot;n_frames&quot;: 8,
+    &quot;gripper_min_m&quot;: 5.9e-05,
+    &quot;gripper_max_m&quot;: 0.2657,
+    &quot;tau_text&quot;: 0.85,
+    &quot;knn_k&quot;: 20,
+    &quot;big_bucket&quot;: 5000,
+    &quot;pair_sim_floor&quot;: 0.5,
+    &quot;dtw_band&quot;: [
+      0.8,
+      1.25
+    ],
+    &quot;thresholds&quot;: {
+      &quot;motion_range&quot;: {
+        &quot;value&quot;: 0.35,
+        &quot;confirmed&quot;: true,
+        &quot;mined_from&quot;: &quot;SMOKE-PLACEHOLDER&quot;
+      },
+      &quot;motion_speed&quot;: {
+        &quot;value&quot;: 0.6,
+        &quot;confirmed&quot;: true,
+        &quot;mined_from&quot;: &quot;SMOKE-PLACEHOLDER&quot;
+      },
+      &quot;tau_vis&quot;: {
+        &quot;value&quot;: 0.988,
+        &quot;confirmed&quot;: true,
+        &quot;mined_from&quot;: &quot;SMOKE-PLACEHOLDER&quot;
+      },
+      &quot;action_dist&quot;: {
+        &quot;value&quot;: 0.065,
+        &quot;confirmed&quot;: true,
+        &quot;mined_from&quot;: &quot;SMOKE-PLACEHOLDER&quot;
+      }
+    },
+    &quot;enabled&quot;: {
+      &quot;motion&quot;: false,
+      &quot;gripper&quot;: false,
+      &quot;dedup&quot;: true
+    },
+    &quot;priority&quot;: [
+      &quot;dedup&quot;
+    ]
+  }
+}</pre></div>
+<script>
+function sortTable(th) {
+  var table = th.closest("table");
+  var idx = Array.prototype.indexOf.call(th.parentNode.children, th);
+  var tbody = table.querySelector("tbody");
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+  var asc = th.dataset.asc !== "true";
+  rows.sort(function (a, b) {
+    var av = a.children[idx].innerText, bv = b.children[idx].innerText;
+    var an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) { return asc ? an - bn : bn - an; }
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  th.dataset.asc = asc;
+  rows.forEach(function (r) { tbody.appendChild(r); });
+}
+</script>
+</body></html>
