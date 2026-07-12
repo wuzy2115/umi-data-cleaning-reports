@@ -1,0 +1,616 @@
+{
+ "meta": {
+  "root": "/mnt/data/wuzhuoyuan/dataset_400h_annotation_v2_shards",
+  "lowdim_version": "v2_pose6d_20260609",
+  "seed": 0,
+  "bands": {
+   "extreme": 20,
+   "high": 11,
+   "mid": 10,
+   "control": 5,
+   "z_only": 1,
+   "z_1p5_2": 6,
+   "z_1_1p5": 3,
+   "z_0p5_1": 3,
+   "z_0_0p5": 3,
+   "xy_1p5_2": 3,
+   "xy_1_1p5": 3,
+   "xy_0p5_1": 3,
+   "xy_0_0p5": 3
+  }
+ },
+ "episodes": [
+  {
+   "shard": 1,
+   "episode": 3441,
+   "xy_max_m": 261.193,
+   "z_max_m": 5.44,
+   "band": "extreme",
+   "dir": "extreme/s1_e3441"
+  },
+  {
+   "shard": 0,
+   "episode": 1696,
+   "xy_max_m": 250.177,
+   "z_max_m": 8.077,
+   "band": "extreme",
+   "dir": "extreme/s0_e1696"
+  },
+  {
+   "shard": 0,
+   "episode": 1892,
+   "xy_max_m": 219.501,
+   "z_max_m": 24.829,
+   "band": "extreme",
+   "dir": "extreme/s0_e1892"
+  },
+  {
+   "shard": 0,
+   "episode": 3641,
+   "xy_max_m": 166.265,
+   "z_max_m": 7.209,
+   "band": "extreme",
+   "dir": "extreme/s0_e3641"
+  },
+  {
+   "shard": 0,
+   "episode": 2569,
+   "xy_max_m": 140.889,
+   "z_max_m": 4.03,
+   "band": "extreme",
+   "dir": "extreme/s0_e2569"
+  },
+  {
+   "shard": 1,
+   "episode": 2771,
+   "xy_max_m": 104.935,
+   "z_max_m": 14.801,
+   "band": "extreme",
+   "dir": "extreme/s1_e2771"
+  },
+  {
+   "shard": 0,
+   "episode": 2377,
+   "xy_max_m": 103.999,
+   "z_max_m": 1.352,
+   "band": "extreme",
+   "dir": "extreme/s0_e2377"
+  },
+  {
+   "shard": 1,
+   "episode": 1944,
+   "xy_max_m": 101.848,
+   "z_max_m": 3.246,
+   "band": "extreme",
+   "dir": "extreme/s1_e1944"
+  },
+  {
+   "shard": 1,
+   "episode": 3453,
+   "xy_max_m": 86.889,
+   "z_max_m": 12.417,
+   "band": "extreme",
+   "dir": "extreme/s1_e3453"
+  },
+  {
+   "shard": 1,
+   "episode": 521,
+   "xy_max_m": 55.955,
+   "z_max_m": 1.218,
+   "band": "extreme",
+   "dir": "extreme/s1_e521"
+  },
+  {
+   "shard": 1,
+   "episode": 3098,
+   "xy_max_m": 53.065,
+   "z_max_m": 5.223,
+   "band": "extreme",
+   "dir": "extreme/s1_e3098"
+  },
+  {
+   "shard": 1,
+   "episode": 2983,
+   "xy_max_m": 50.106,
+   "z_max_m": 0.889,
+   "band": "extreme",
+   "dir": "extreme/s1_e2983"
+  },
+  {
+   "shard": 0,
+   "episode": 2359,
+   "xy_max_m": 48.629,
+   "z_max_m": 17.931,
+   "band": "extreme",
+   "dir": "extreme/s0_e2359"
+  },
+  {
+   "shard": 1,
+   "episode": 3390,
+   "xy_max_m": 37.727,
+   "z_max_m": 2.214,
+   "band": "extreme",
+   "dir": "extreme/s1_e3390"
+  },
+  {
+   "shard": 0,
+   "episode": 528,
+   "xy_max_m": 33.987,
+   "z_max_m": 5.41,
+   "band": "extreme",
+   "dir": "extreme/s0_e528"
+  },
+  {
+   "shard": 0,
+   "episode": 724,
+   "xy_max_m": 31.626,
+   "z_max_m": 1.115,
+   "band": "extreme",
+   "dir": "extreme/s0_e724"
+  },
+  {
+   "shard": 0,
+   "episode": 3533,
+   "xy_max_m": 26.782,
+   "z_max_m": 8.889,
+   "band": "extreme",
+   "dir": "extreme/s0_e3533"
+  },
+  {
+   "shard": 1,
+   "episode": 1733,
+   "xy_max_m": 26.368,
+   "z_max_m": 6.305,
+   "band": "extreme",
+   "dir": "extreme/s1_e1733"
+  },
+  {
+   "shard": 1,
+   "episode": 3295,
+   "xy_max_m": 21.032,
+   "z_max_m": 0.817,
+   "band": "extreme",
+   "dir": "extreme/s1_e3295"
+  },
+  {
+   "shard": 1,
+   "episode": 3139,
+   "xy_max_m": 20.343,
+   "z_max_m": 7.339,
+   "band": "extreme",
+   "dir": "extreme/s1_e3139"
+  },
+  {
+   "shard": 0,
+   "episode": 1199,
+   "xy_max_m": 18.543,
+   "z_max_m": 1.693,
+   "band": "high",
+   "dir": "high/s0_e1199"
+  },
+  {
+   "shard": 0,
+   "episode": 2061,
+   "xy_max_m": 14.897,
+   "z_max_m": 3.328,
+   "band": "high",
+   "dir": "high/s0_e2061"
+  },
+  {
+   "shard": 1,
+   "episode": 4072,
+   "xy_max_m": 14.895,
+   "z_max_m": 4.274,
+   "band": "high",
+   "dir": "high/s1_e4072"
+  },
+  {
+   "shard": 1,
+   "episode": 1325,
+   "xy_max_m": 14.71,
+   "z_max_m": 1.21,
+   "band": "high",
+   "dir": "high/s1_e1325"
+  },
+  {
+   "shard": 1,
+   "episode": 1524,
+   "xy_max_m": 13.41,
+   "z_max_m": 3.511,
+   "band": "high",
+   "dir": "high/s1_e1524"
+  },
+  {
+   "shard": 1,
+   "episode": 4005,
+   "xy_max_m": 12.357,
+   "z_max_m": 2.107,
+   "band": "high",
+   "dir": "high/s1_e4005"
+  },
+  {
+   "shard": 1,
+   "episode": 2268,
+   "xy_max_m": 12.252,
+   "z_max_m": 2.974,
+   "band": "high",
+   "dir": "high/s1_e2268"
+  },
+  {
+   "shard": 1,
+   "episode": 696,
+   "xy_max_m": 12.112,
+   "z_max_m": 7.334,
+   "band": "high",
+   "dir": "high/s1_e696"
+  },
+  {
+   "shard": 0,
+   "episode": 2217,
+   "xy_max_m": 11.013,
+   "z_max_m": 1.801,
+   "band": "high",
+   "dir": "high/s0_e2217"
+  },
+  {
+   "shard": 0,
+   "episode": 2202,
+   "xy_max_m": 10.849,
+   "z_max_m": 0.994,
+   "band": "high",
+   "dir": "high/s0_e2202"
+  },
+  {
+   "shard": 0,
+   "episode": 1717,
+   "xy_max_m": 10.696,
+   "z_max_m": 1.294,
+   "band": "high",
+   "dir": "high/s0_e1717"
+  },
+  {
+   "shard": 1,
+   "episode": 3510,
+   "xy_max_m": 7.459,
+   "z_max_m": 1.005,
+   "band": "mid",
+   "dir": "mid/s1_e3510"
+  },
+  {
+   "shard": 1,
+   "episode": 2649,
+   "xy_max_m": 6.576,
+   "z_max_m": 0.95,
+   "band": "mid",
+   "dir": "mid/s1_e2649"
+  },
+  {
+   "shard": 0,
+   "episode": 594,
+   "xy_max_m": 6.143,
+   "z_max_m": 1.318,
+   "band": "mid",
+   "dir": "mid/s0_e594"
+  },
+  {
+   "shard": 0,
+   "episode": 2859,
+   "xy_max_m": 6.126,
+   "z_max_m": 1.248,
+   "band": "mid",
+   "dir": "mid/s0_e2859"
+  },
+  {
+   "shard": 0,
+   "episode": 519,
+   "xy_max_m": 6.114,
+   "z_max_m": 1.272,
+   "band": "mid",
+   "dir": "mid/s0_e519"
+  },
+  {
+   "shard": 0,
+   "episode": 3478,
+   "xy_max_m": 6.068,
+   "z_max_m": 1.308,
+   "band": "mid",
+   "dir": "mid/s0_e3478"
+  },
+  {
+   "shard": 1,
+   "episode": 884,
+   "xy_max_m": 6.05,
+   "z_max_m": 1.307,
+   "band": "mid",
+   "dir": "mid/s1_e884"
+  },
+  {
+   "shard": 1,
+   "episode": 1625,
+   "xy_max_m": 5.667,
+   "z_max_m": 1.01,
+   "band": "mid",
+   "dir": "mid/s1_e1625"
+  },
+  {
+   "shard": 0,
+   "episode": 2432,
+   "xy_max_m": 5.414,
+   "z_max_m": 0.647,
+   "band": "mid",
+   "dir": "mid/s0_e2432"
+  },
+  {
+   "shard": 0,
+   "episode": 533,
+   "xy_max_m": 5.078,
+   "z_max_m": 0.816,
+   "band": "mid",
+   "dir": "mid/s0_e533"
+  },
+  {
+   "shard": 2,
+   "episode": 771,
+   "xy_max_m": 2.877,
+   "z_max_m": 1.093,
+   "band": "control",
+   "dir": "control/s2_e771"
+  },
+  {
+   "shard": 0,
+   "episode": 2845,
+   "xy_max_m": 2.531,
+   "z_max_m": 0.631,
+   "band": "control",
+   "dir": "control/s0_e2845"
+  },
+  {
+   "shard": 1,
+   "episode": 3394,
+   "xy_max_m": 2.473,
+   "z_max_m": 1.259,
+   "band": "control",
+   "dir": "control/s1_e3394"
+  },
+  {
+   "shard": 1,
+   "episode": 2124,
+   "xy_max_m": 2.336,
+   "z_max_m": 0.957,
+   "band": "control",
+   "dir": "control/s1_e2124"
+  },
+  {
+   "shard": 0,
+   "episode": 54,
+   "xy_max_m": 2.029,
+   "z_max_m": 1.011,
+   "band": "control",
+   "dir": "control/s0_e54"
+  },
+  {
+   "shard": 0,
+   "episode": 1239,
+   "xy_max_m": 4.065,
+   "z_max_m": 3.193,
+   "band": "z_only",
+   "dir": "z_only/s0_e1239"
+  },
+  {
+   "shard": 1,
+   "episode": 2893,
+   "xy_max_m": 1.592,
+   "z_max_m": 1.647,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s1_e2893"
+  },
+  {
+   "shard": 1,
+   "episode": 1838,
+   "xy_max_m": 1.982,
+   "z_max_m": 1.548,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s1_e1838"
+  },
+  {
+   "shard": 1,
+   "episode": 3464,
+   "xy_max_m": 1.093,
+   "z_max_m": 1.527,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s1_e3464"
+  },
+  {
+   "shard": 2,
+   "episode": 920,
+   "xy_max_m": 0.602,
+   "z_max_m": 1.524,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s2_e920"
+  },
+  {
+   "shard": 0,
+   "episode": 1889,
+   "xy_max_m": 1.949,
+   "z_max_m": 1.521,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s0_e1889"
+  },
+  {
+   "shard": 1,
+   "episode": 3132,
+   "xy_max_m": 1.871,
+   "z_max_m": 1.515,
+   "band": "z_1p5_2",
+   "dir": "z_1p5_2/s1_e3132"
+  },
+  {
+   "shard": 1,
+   "episode": 3958,
+   "xy_max_m": 1.236,
+   "z_max_m": 1.377,
+   "band": "z_1_1p5",
+   "dir": "z_1_1p5/s1_e3958"
+  },
+  {
+   "shard": 2,
+   "episode": 902,
+   "xy_max_m": 0.738,
+   "z_max_m": 1.202,
+   "band": "z_1_1p5",
+   "dir": "z_1_1p5/s2_e902"
+  },
+  {
+   "shard": 1,
+   "episode": 3537,
+   "xy_max_m": 1.09,
+   "z_max_m": 1.163,
+   "band": "z_1_1p5",
+   "dir": "z_1_1p5/s1_e3537"
+  },
+  {
+   "shard": 0,
+   "episode": 199,
+   "xy_max_m": 0.437,
+   "z_max_m": 0.634,
+   "band": "z_0p5_1",
+   "dir": "z_0p5_1/s0_e199"
+  },
+  {
+   "shard": 1,
+   "episode": 1763,
+   "xy_max_m": 0.44,
+   "z_max_m": 0.614,
+   "band": "z_0p5_1",
+   "dir": "z_0p5_1/s1_e1763"
+  },
+  {
+   "shard": 2,
+   "episode": 1176,
+   "xy_max_m": 0.507,
+   "z_max_m": 0.603,
+   "band": "z_0p5_1",
+   "dir": "z_0p5_1/s2_e1176"
+  },
+  {
+   "shard": 1,
+   "episode": 926,
+   "xy_max_m": 0.273,
+   "z_max_m": 0.481,
+   "band": "z_0_0p5",
+   "dir": "z_0_0p5/s1_e926"
+  },
+  {
+   "shard": 1,
+   "episode": 748,
+   "xy_max_m": 0.354,
+   "z_max_m": 0.466,
+   "band": "z_0_0p5",
+   "dir": "z_0_0p5/s1_e748"
+  },
+  {
+   "shard": 1,
+   "episode": 1593,
+   "xy_max_m": 0.429,
+   "z_max_m": 0.45,
+   "band": "z_0_0p5",
+   "dir": "z_0_0p5/s1_e1593"
+  },
+  {
+   "shard": 1,
+   "episode": 2706,
+   "xy_max_m": 1.714,
+   "z_max_m": 0.599,
+   "band": "xy_1p5_2",
+   "dir": "xy_1p5_2/s1_e2706"
+  },
+  {
+   "shard": 0,
+   "episode": 70,
+   "xy_max_m": 1.56,
+   "z_max_m": 1.242,
+   "band": "xy_1p5_2",
+   "dir": "xy_1p5_2/s0_e70"
+  },
+  {
+   "shard": 0,
+   "episode": 1124,
+   "xy_max_m": 1.56,
+   "z_max_m": 1.068,
+   "band": "xy_1p5_2",
+   "dir": "xy_1p5_2/s0_e1124"
+  },
+  {
+   "shard": 0,
+   "episode": 2613,
+   "xy_max_m": 1.424,
+   "z_max_m": 0.857,
+   "band": "xy_1_1p5",
+   "dir": "xy_1_1p5/s0_e2613"
+  },
+  {
+   "shard": 1,
+   "episode": 4090,
+   "xy_max_m": 1.394,
+   "z_max_m": 0.595,
+   "band": "xy_1_1p5",
+   "dir": "xy_1_1p5/s1_e4090"
+  },
+  {
+   "shard": 1,
+   "episode": 2318,
+   "xy_max_m": 1.219,
+   "z_max_m": 0.785,
+   "band": "xy_1_1p5",
+   "dir": "xy_1_1p5/s1_e2318"
+  },
+  {
+   "shard": 2,
+   "episode": 2497,
+   "xy_max_m": 0.958,
+   "z_max_m": 0.524,
+   "band": "xy_0p5_1",
+   "dir": "xy_0p5_1/s2_e2497"
+  },
+  {
+   "shard": 2,
+   "episode": 515,
+   "xy_max_m": 0.801,
+   "z_max_m": 0.597,
+   "band": "xy_0p5_1",
+   "dir": "xy_0p5_1/s2_e515"
+  },
+  {
+   "shard": 2,
+   "episode": 2310,
+   "xy_max_m": 0.8,
+   "z_max_m": 0.376,
+   "band": "xy_0p5_1",
+   "dir": "xy_0p5_1/s2_e2310"
+  },
+  {
+   "shard": 2,
+   "episode": 1247,
+   "xy_max_m": 0.475,
+   "z_max_m": 0.385,
+   "band": "xy_0_0p5",
+   "dir": "xy_0_0p5/s2_e1247"
+  },
+  {
+   "shard": 2,
+   "episode": 2174,
+   "xy_max_m": 0.475,
+   "z_max_m": 0.454,
+   "band": "xy_0_0p5",
+   "dir": "xy_0_0p5/s2_e2174"
+  },
+  {
+   "shard": 1,
+   "episode": 3408,
+   "xy_max_m": 0.462,
+   "z_max_m": 0.3,
+   "band": "xy_0_0p5",
+   "dir": "xy_0_0p5/s1_e3408"
+  }
+ ]
+}

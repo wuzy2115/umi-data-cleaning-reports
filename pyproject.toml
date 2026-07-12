@@ -1,0 +1,12 @@
+[project]
+name = "umi-data-cleaning-reports"
+version = "0.1.0"
+description = "Static UMI data-cleaning review site + the generator that builds it"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26"]   # pose.npz curves; everything else is stdlib
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
