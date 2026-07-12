@@ -1,0 +1,262 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>umi400h — funnel</title><script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f3ee;
+    --surface: #fffefb;
+    --surface-2: #f7f5ee;
+    --border: #e5e2d8;
+    --border-strong: #d3cfc2;
+    --ink: #1d1f23;
+    --ink-2: #565a63;
+    --ink-3: #8b8e96;
+    --accent: #b45309;
+    --accent-deep: #8a3f06;
+    --accent-soft: #f6ead9;
+    --keep: #1a7f42;
+    --drop: #b42318;
+    --head-bg: #17191d;
+    --head-ink: #ecebe6;
+    --head-muted: #9a9ca3;
+    --radius: 8px;
+    --shadow: 0 1px 2px rgba(29, 27, 20, 0.04), 0 1px 5px rgba(29, 27, 20, 0.05);
+    --shadow-lift: 0 6px 18px rgba(29, 27, 20, 0.09);
+    --page-w: 1180px;
+    --sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-deep); }
+  code, pre { font-family: var(--mono); }
+  pre {
+    font-size: 0.76rem; line-height: 1.6; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.9rem 1.05rem; overflow-x: auto;
+  }
+  ol, ul { padding-left: 1.4rem; }
+  li { margin: 0.15rem 0; }
+  .muted { color: var(--ink-2); }
+
+  /* ---- topbar --------------------------------------------------------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--head-bg);
+  }
+  .site-header::before {
+    content: ""; display: block; height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, #d97a2b 45%, rgba(217, 122, 43, 0) 100%);
+  }
+  .header-inner {
+    max-width: var(--page-w); margin: 0 auto; height: 54px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.25rem; gap: 1.25rem;
+  }
+  .site-title {
+    font-family: var(--mono); font-weight: 700; font-size: 0.82rem;
+    letter-spacing: 0.06em; color: var(--head-ink); text-decoration: none;
+    white-space: nowrap; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .site-title::before {
+    content: ""; width: 9px; height: 9px; flex: none;
+    background: var(--accent); border-radius: 2px;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.28);
+  }
+  .site-title:hover { color: #ffffff; }
+  .top-nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .top-nav a {
+    font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--head-muted); text-decoration: none;
+    white-space: nowrap; padding: 0.45rem 0.6rem; border-radius: 5px;
+    transition: color 0.12s ease, background-color 0.12s ease;
+  }
+  .top-nav a:hover { color: var(--head-ink); background: rgba(255, 255, 255, 0.07); }
+  .top-nav a.active { color: #f0b476; background: rgba(180, 83, 9, 0.20); }
+
+  /* ---- page frame ------------------------------------------------------ */
+  main.container { max-width: var(--page-w); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+  .page-head { margin: 0.25rem 0 1.5rem; }
+  .kicker {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  h1.page-title { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .site-footer {
+    max-width: var(--page-w); margin: 0 auto; padding: 0 1.25rem 2.5rem;
+    font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+
+  /* ---- cards ----------------------------------------------------------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 1.15rem 1.35rem 1.25rem; margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-2);
+    margin: 0 0 0.95rem; display: flex; align-items: baseline; gap: 0.6rem;
+  }
+  .card h2::before {
+    content: ""; width: 0.55rem; height: 2px; flex: none;
+    background: var(--accent); align-self: center;
+  }
+  .card > *:last-child { margin-bottom: 0; }
+
+  /* ---- stat tiles ------------------------------------------------------ */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
+  .stat {
+    position: relative; overflow: hidden;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.8rem 0.95rem 0.75rem;
+  }
+  .stat::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--border-strong);
+  }
+  .stat-keep::after { background: var(--keep); }
+  .stat-drop::after { background: var(--drop); }
+  .stat-accent::after { background: var(--accent); }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.3rem;
+  }
+  .stat-value {
+    font-family: var(--mono); font-size: 1.45rem; font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.15; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-keep .stat-value { color: var(--keep); }
+  .stat-drop .stat-value { color: var(--drop); }
+  .stat-accent .stat-value { color: var(--accent-deep); }
+  .stat-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-2); margin-top: 0.28rem; }
+
+  /* ---- tables ---------------------------------------------------------- */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  thead th {
+    font-family: var(--mono); font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+    text-align: left; padding: 0.45rem 0.7rem;
+    border-bottom: 1px solid var(--border-strong);
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th::after { content: "\2195"; margin-left: 0.4em; opacity: 0.35; }
+  thead th[data-asc="true"]::after { content: "\2191"; opacity: 1; color: var(--accent); }
+  thead th[data-asc="false"]::after { content: "\2193"; opacity: 1; color: var(--accent); }
+  thead th:hover { color: var(--accent); }
+  tbody td { padding: 0.42rem 0.7rem; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td[data-num] { text-align: right; font-family: var(--mono); font-size: 0.78rem; }
+  td[data-bool] { font-family: var(--mono); font-size: 0.75rem; }
+  td[data-bool="true"] { color: var(--keep); }
+  td[data-bool="false"] { color: var(--drop); }
+  td[data-bool]::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    margin-right: 0.45em; vertical-align: 1px; background: currentColor;
+  }
+
+  /* ---- plotly ---------------------------------------------------------- */
+  .plotly-fig { width: 100%; height: 420px; }
+
+  /* ---- media walls ----------------------------------------------------- */
+  .media-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .media-item {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .media-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+  .media-item video, .media-item img {
+    width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #101113;
+    border-radius: 5px; display: block;
+  }
+  .media-item.rep { border-left: 3px solid var(--keep); }
+  .media-item.member { border-left: 3px solid var(--drop); }
+  .media-item .badge {
+    position: absolute; top: 12px; left: 12px;
+    font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.09em; padding: 0.16rem 0.42rem; border-radius: 3px;
+  }
+  .media-item.rep .badge { background: var(--keep); color: #ffffff; }
+  .media-item.member .badge { background: var(--drop); color: #ffffff; }
+  .caption {
+    font-family: var(--mono); font-size: 0.66rem; line-height: 1.5;
+    color: var(--ink-2); word-break: break-all; margin-top: 0.4rem; padding: 0 2px 2px;
+  }
+
+  /* ---- index landing grid ---------------------------------------------- */
+  .landing-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px; counter-reset: pagecard;
+  }
+  .landing-card {
+    position: relative; display: block;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.95rem 1.05rem 0.9rem; text-decoration: none; color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .landing-card::before {
+    counter-increment: pagecard; content: counter(pagecard, decimal-leading-zero);
+    display: block; font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 0.45rem;
+  }
+  .landing-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow-lift); }
+  .landing-card .t { font-weight: 600; font-size: 0.92rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .landing-card .t::after { content: " \2192"; color: var(--accent); opacity: 0; transition: opacity 0.12s ease; }
+  .landing-card:hover .t { color: var(--accent-deep); }
+  .landing-card:hover .t::after { opacity: 1; }
+  .landing-card .d { font-size: 0.76rem; color: var(--ink-2); line-height: 1.5; }
+
+  /* ---- responsive ------------------------------------------------------ */
+  @media (max-width: 768px) {
+    .header-inner { height: auto; flex-direction: column; align-items: flex-start; gap: 0.25rem; padding: 0.55rem 1rem 0.6rem; }
+    .top-nav { width: 100%; }
+    main.container { padding: 1.25rem 0.85rem 2.5rem; }
+    .card { padding: 0.95rem 1rem 1rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 1.2rem; }
+    .media-wall { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .plotly-fig { height: 320px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head><body><header class="site-header"><div class="header-inner"><a class="site-title" href="index.html">umi400h</a><nav class="top-nav"><a href="index.html">Overview</a><a href="report.html">Report</a><a href="funnel.html" class="active">Funnel</a><a href="motion.html">Motion</a><a href="gripper.html">Gripper</a><a href="scene_clusters.html">Scenes</a><a href="dedup_threshold.html">Dedup τ</a><a href="dedup_clusters.html">Dedup Clusters</a><a href="samples.html">Samples</a><a href="provenance.html">Provenance</a></nav></div></header><main class="container"><div class="page-head"><div class="kicker">umi400h</div><h1 class="page-title">funnel</h1></div><div class="card"><h2>Funnel (dropped per filter, priority order)</h2><div class="table-wrap"><table><thead><tr><th onclick="sortTable(this)">filter</th><th onclick="sortTable(this)">dropped</th></tr></thead><tbody><tr><td>vio</td><td data-num="true">0</td></tr><tr><td>dedup</td><td data-num="true">76783</td></tr></tbody></table></div></div>
+<div class="card"><h2>drop_reason distribution</h2><div id="plotly-1" class="plotly-fig"></div><script>(function(){var _l = Object.assign({"font": {"family": "-apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif", "size": 12, "color": "#42454c"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "margin": {"t": 44, "r": 20}, "template": {"layout": {"colorway": ["#b45309", "#31708e", "#5f7a3a", "#8a4f7d", "#50555e", "#c98a2e"], "xaxis": {"gridcolor": "#ebe8df", "linecolor": "#d3cfc2", "zerolinecolor": "#d3cfc2", "ticks": "outside", "tickcolor": "#d3cfc2"}, "yaxis": {"gridcolor": "#ebe8df", "linecolor": "#d3cfc2", "zerolinecolor": "#d3cfc2", "ticks": "outside", "tickcolor": "#d3cfc2"}, "title": {"font": {"family": "-apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif", "size": 13, "color": "#565a63"}, "x": 0}, "legend": {"font": {"size": 11}, "bgcolor": "rgba(0,0,0,0)"}}}}, {"title": "drop_reason distribution"});Plotly.newPlot("plotly-1", [{"type": "pie", "labels": ["kept", "dedup", "motion"], "values": [69619, 76783, 54149], "hole": 0.45}], _l, {responsive: true});})();</script></div>
+<div class="card"><h2>VIO episode drops (episode-level gate)</h2><div class="stat-grid"><div class="stat stat-drop"><div class="stat-label">episodes dropped (vio)</div><div class="stat-value">0</div></div><div class="stat stat-drop"><div class="stat-label">segments dropped (vio)</div><div class="stat-value">0</div></div></div></div></main><footer class="site-footer">umi400h · S8 cleaning review · static report</footer>
+<script>
+function sortTable(th) {
+  var table = th.closest("table");
+  var idx = Array.prototype.indexOf.call(th.parentNode.children, th);
+  var tbody = table.querySelector("tbody");
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+  var asc = th.dataset.asc !== "true";
+  rows.sort(function (a, b) {
+    var av = a.children[idx].innerText, bv = b.children[idx].innerText;
+    var an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) { return asc ? an - bn : bn - an; }
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  Array.prototype.forEach.call(th.parentNode.children, function (o) {
+    if (o !== th) { delete o.dataset.asc; }
+  });
+  th.dataset.asc = asc;
+  rows.forEach(function (r) { tbody.appendChild(r); });
+}
+</script>
+</body></html>
