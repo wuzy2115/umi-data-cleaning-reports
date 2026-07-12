@@ -424,6 +424,11 @@ def _render_section(sec: dict, counter: _PlotlyCounter) -> str:
         return f"<h2>{_html.escape(str(sec['h']))}</h2>"
     if "text" in sec:
         return f"<div>{sec['text']}</div>"
+    if "raw" in sec:
+        # Emitted verbatim — no wrapper div, unlike {"text"}. For markup that must
+        # come out exactly as given: `frozen_page` re-renders an already-published
+        # page through this, so a rebuild reproduces it byte for byte.
+        return sec["raw"]
     if "table" in sec:
         return _render_table(sec["table"])
     if "stats" in sec:
@@ -497,11 +502,12 @@ def page(
 ) -> str:
     """Render a self-contained HTML page string from `sections`.
 
-    Section kinds: `{"h": str}` heading, `{"text": str}` free HTML/text,
-    `{"table": list[dict]}` (keys of the first row become the header row),
-    `{"stats": list[dict]}` KPI tiles (`{"label", "value", "sub"?, "tone"?}`),
-    `{"plotly": fig_dict}` (embedded via CDN + inline `Plotly.newPlot`),
-    `{"media": [{"src", "caption"}]}` (video vs image chosen by extension).
+    Section kinds: `{"h": str}` heading, `{"text": str}` free HTML/text (wrapped in
+    a div), `{"raw": str}` markup emitted verbatim, `{"table": list[dict]}` (keys of
+    the first row become the header row), `{"stats": list[dict]}` KPI tiles
+    (`{"label", "value", "sub"?, "tone"?}`), `{"plotly": fig_dict}` (embedded via CDN
+    + inline `Plotly.newPlot`), `{"media": [{"src", "caption"}]}` (video vs image
+    chosen by extension).
 
     `nav`/`current`/`site_name` are optional: when given, `nav` (a list of
     `(href, label)` pairs) renders as a sticky top nav bar with `current`'s
