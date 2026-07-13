@@ -1,0 +1,353 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>umi400h — action threshold review</title><script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f3ee;
+    --surface: #fffefb;
+    --surface-2: #f7f5ee;
+    --border: #e5e2d8;
+    --border-strong: #d3cfc2;
+    --ink: #1d1f23;
+    --ink-2: #565a63;
+    --ink-3: #8b8e96;
+    --accent: #b45309;
+    --accent-deep: #8a3f06;
+    --accent-soft: #f6ead9;
+    --keep: #1a7f42;
+    --drop: #b42318;
+    --head-bg: #17191d;
+    --head-ink: #ecebe6;
+    --head-muted: #9a9ca3;
+    --radius: 8px;
+    --shadow: 0 1px 2px rgba(29, 27, 20, 0.04), 0 1px 5px rgba(29, 27, 20, 0.05);
+    --shadow-lift: 0 6px 18px rgba(29, 27, 20, 0.09);
+    --page-w: 1180px;
+    --sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-deep); }
+  code, pre { font-family: var(--mono); }
+  pre {
+    font-size: 0.76rem; line-height: 1.6; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.9rem 1.05rem; overflow-x: auto;
+  }
+  ol, ul { padding-left: 1.4rem; }
+  li { margin: 0.15rem 0; }
+  .muted { color: var(--ink-2); }
+
+  /* ---- topbar --------------------------------------------------------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--head-bg);
+  }
+  .site-header::before {
+    content: ""; display: block; height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, #d97a2b 45%, rgba(217, 122, 43, 0) 100%);
+  }
+  .header-inner {
+    max-width: var(--page-w); margin: 0 auto; height: 54px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.25rem; gap: 1.25rem;
+  }
+  .site-title {
+    font-family: var(--mono); font-weight: 700; font-size: 0.82rem;
+    letter-spacing: 0.06em; color: var(--head-ink); text-decoration: none;
+    white-space: nowrap; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .site-title::before {
+    content: ""; width: 9px; height: 9px; flex: none;
+    background: var(--accent); border-radius: 2px;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.28);
+  }
+  .site-title:hover { color: #ffffff; }
+  .top-nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .top-nav a {
+    font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--head-muted); text-decoration: none;
+    white-space: nowrap; padding: 0.45rem 0.6rem; border-radius: 5px;
+    transition: color 0.12s ease, background-color 0.12s ease;
+  }
+  .top-nav a:hover { color: var(--head-ink); background: rgba(255, 255, 255, 0.07); }
+  .top-nav a.active { color: #f0b476; background: rgba(180, 83, 9, 0.20); }
+
+  /* ---- page frame ------------------------------------------------------ */
+  main.container { max-width: var(--page-w); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+  .page-head { margin: 0.25rem 0 1.5rem; }
+  .kicker {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  h1.page-title { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .site-footer {
+    max-width: var(--page-w); margin: 0 auto; padding: 0 1.25rem 2.5rem;
+    font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+
+  /* ---- cards ----------------------------------------------------------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 1.15rem 1.35rem 1.25rem; margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-2);
+    margin: 0 0 0.95rem; display: flex; align-items: baseline; gap: 0.6rem;
+  }
+  .card h2::before {
+    content: ""; width: 0.55rem; height: 2px; flex: none;
+    background: var(--accent); align-self: center;
+  }
+  .card > *:last-child { margin-bottom: 0; }
+
+  /* ---- stat tiles ------------------------------------------------------ */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
+  .stat {
+    position: relative; overflow: hidden;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.8rem 0.95rem 0.75rem;
+  }
+  .stat::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--border-strong);
+  }
+  .stat-keep::after { background: var(--keep); }
+  .stat-drop::after { background: var(--drop); }
+  .stat-accent::after { background: var(--accent); }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.3rem;
+  }
+  .stat-value {
+    font-family: var(--mono); font-size: 1.45rem; font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.15; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-keep .stat-value { color: var(--keep); }
+  .stat-drop .stat-value { color: var(--drop); }
+  .stat-accent .stat-value { color: var(--accent-deep); }
+  .stat-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-2); margin-top: 0.28rem; }
+
+  /* ---- tables ---------------------------------------------------------- */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  thead th {
+    font-family: var(--mono); font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+    text-align: left; padding: 0.45rem 0.7rem;
+    border-bottom: 1px solid var(--border-strong);
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th::after { content: "\2195"; margin-left: 0.4em; opacity: 0.35; }
+  thead th[data-asc="true"]::after { content: "\2191"; opacity: 1; color: var(--accent); }
+  thead th[data-asc="false"]::after { content: "\2193"; opacity: 1; color: var(--accent); }
+  thead th:hover { color: var(--accent); }
+  tbody td { padding: 0.42rem 0.7rem; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td[data-num] { text-align: right; font-family: var(--mono); font-size: 0.78rem; }
+  td[data-bool] { font-family: var(--mono); font-size: 0.75rem; }
+  td[data-bool="true"] { color: var(--keep); }
+  td[data-bool="false"] { color: var(--drop); }
+  td[data-bool]::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    margin-right: 0.45em; vertical-align: 1px; background: currentColor;
+  }
+
+  /* ---- plotly ---------------------------------------------------------- */
+  .plotly-fig { width: 100%; height: 420px; }
+
+  /* ---- media walls ----------------------------------------------------- */
+  .media-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .media-item {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .media-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+  .media-item video, .media-item img {
+    width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #101113;
+    border-radius: 5px; display: block;
+  }
+  .media-item.rep { border-left: 3px solid var(--keep); }
+  .media-item.member { border-left: 3px solid var(--drop); }
+  /* Task 16 review fix: a hstacked side-by-side pair clip is ~32:9, not 16:9 —
+     the shared `cover`/`16:9` rule above crops roughly half of each side clip
+     (exactly the grasp/place endpoints a blind reviewer needs to see). Pair
+     cards get their own full-width row and an unset aspect ratio. Callers also
+     set an inline style override directly on the media element (belt-and-
+     suspenders: correctness never depends on this rule's cascade precedence). */
+  .media-item.pair { grid-column: 1 / -1; }
+  .media-wall .media-item.pair video, .media-wall .media-item.pair img {
+    aspect-ratio: auto; object-fit: contain; max-height: 70vh;
+  }
+  .media-item .badge {
+    position: absolute; top: 12px; left: 12px;
+    font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.09em; padding: 0.16rem 0.42rem; border-radius: 3px;
+  }
+  .media-item.rep .badge { background: var(--keep); color: #ffffff; }
+  .media-item.member .badge { background: var(--drop); color: #ffffff; }
+  .caption {
+    font-family: var(--mono); font-size: 0.66rem; line-height: 1.5;
+    color: var(--ink-2); word-break: break-all; margin-top: 0.4rem; padding: 0 2px 2px;
+  }
+
+  /* ---- index landing grid ---------------------------------------------- */
+  .landing-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px; counter-reset: pagecard;
+  }
+  .landing-card {
+    position: relative; display: block;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.95rem 1.05rem 0.9rem; text-decoration: none; color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .landing-card::before {
+    counter-increment: pagecard; content: counter(pagecard, decimal-leading-zero);
+    display: block; font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 0.45rem;
+  }
+  .landing-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow-lift); }
+  .landing-card .t { font-weight: 600; font-size: 0.92rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .landing-card .t::after { content: " \2192"; color: var(--accent); opacity: 0; transition: opacity 0.12s ease; }
+  .landing-card:hover .t { color: var(--accent-deep); }
+  .landing-card:hover .t::after { opacity: 1; }
+  .landing-card .d { font-size: 0.76rem; color: var(--ink-2); line-height: 1.5; }
+
+  /* ---- responsive ------------------------------------------------------ */
+  @media (max-width: 768px) {
+    .header-inner { height: auto; flex-direction: column; align-items: flex-start; gap: 0.25rem; padding: 0.55rem 1rem 0.6rem; }
+    .top-nav { width: 100%; }
+    main.container { padding: 1.25rem 0.85rem 2.5rem; }
+    .card { padding: 0.95rem 1rem 1rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 1.2rem; }
+    .media-wall { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .plotly-fig { height: 320px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head><body><header class="site-header"><div class="header-inner"><a class="site-title" href="report.html">umi400h</a><nav class="top-nav"><a href="report.html">Report</a><a href="action_threshold.html" class="active">Action τ</a></nav></div></header><main class="container"><div class="page-head"><div class="kicker">umi400h</div><h1 class="page-title">action threshold review</h1></div><div class="card"><h2>Blind deletion review</h2><div><p class="muted">Each pair is a deletion this verdict would make: the <strong>left</strong> clip gets dropped, the <strong>right</strong> one survives in its place. Two questions: (1) are they the same action? (2) is losing the left one acceptable, given the right one stays? Send back the ids where the answer to either is <strong>no</strong>.</p></div></div>
+<div class="card"><h2>Pairs (100 sampled)</h2><div class="media-wall"><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_0.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#0</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_1.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#1</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_2.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#2</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_3.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#3</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_4.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#4</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_5.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#5</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_6.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#6</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_7.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#7</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_8.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#8</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_9.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#9</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_10.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#10</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_11.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#11</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_12.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#12</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_13.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#13</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_14.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#14</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_15.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#15</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_16.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#16</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_17.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#17</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_18.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#18</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_19.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#19</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_20.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#20</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_21.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#21</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_22.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#22</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_23.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#23</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_24.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#24</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_25.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#25</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_26.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#26</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_27.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#27</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_28.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#28</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_29.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#29</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_30.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#30</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_31.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#31</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_32.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#32</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_33.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#33</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_34.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#34</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_35.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#35</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_36.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#36</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_37.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#37</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_38.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#38</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_39.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#39</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_40.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#40</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_41.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#41</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_42.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#42</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_43.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#43</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_44.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#44</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_45.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#45</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_46.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#46</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_47.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#47</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_48.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#48</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_49.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#49</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_50.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#50</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_51.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#51</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_52.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#52</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_53.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#53</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_54.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#54</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_55.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#55</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_56.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#56</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_57.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#57</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_58.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#58</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_59.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#59</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_60.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#60</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_61.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#61</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_62.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#62</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_63.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#63</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_64.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#64</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_65.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#65</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_66.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#66</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_67.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#67</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_68.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#68</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_69.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#69</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_70.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#70</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_71.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#71</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_72.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#72</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_73.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#73</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_74.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#74</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_75.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#75</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_76.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#76</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_77.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#77</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_78.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#78</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_79.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#79</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_80.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#80</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_81.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#81</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_82.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#82</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_83.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#83</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_84.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#84</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_85.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#85</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_86.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#86</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_87.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#87</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_88.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#88</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_89.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#89</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_90.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#90</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_91.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#91</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_92.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#92</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_93.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#93</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_94.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#94</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_95.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#95</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_96.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#96</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_97.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#97</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_98.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#98</div></div><div class="media-item pair"><video controls loop muted playsinline data-src="media/action_review_99.mp4" class="pair" style="aspect-ratio: auto; object-fit: contain; max-height: 70vh;"></video><div class="caption">#99</div></div></div></div></main><footer class="site-footer">umi400h · S8 cleaning review · static report</footer>
+<script>
+function sortTable(th) {
+  var table = th.closest("table");
+  var idx = Array.prototype.indexOf.call(th.parentNode.children, th);
+  var tbody = table.querySelector("tbody");
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+  var asc = th.dataset.asc !== "true";
+  rows.sort(function (a, b) {
+    var av = a.children[idx].innerText, bv = b.children[idx].innerText;
+    var an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) { return asc ? an - bn : bn - an; }
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  Array.prototype.forEach.call(th.parentNode.children, function (o) {
+    if (o !== th) { delete o.dataset.asc; }
+  });
+  th.dataset.asc = asc;
+  rows.forEach(function (r) { tbody.appendChild(r); });
+}
+</script>
+
+<script>
+(function () {
+  // Task 17 §2: pair cards (the blind action-threshold review — up to ~100
+  // hstacked clips on one page) never carry a live `src`, only `data-src`; a
+  // naive `preload="auto"` on all of them would decode 100 videos at once and
+  // wedge the tab. This script keeps a rolling window near the viewport
+  // hydrated/playing and releases everything else.
+  var CAP = 8;  // max concurrently-hydrated (decoded) video elements
+  var hydrated = [];  // FIFO of hydrated video elements, oldest first
+
+  function release(v) {
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    v.dataset.hydrated = "";
+    v.dataset.playing = "";
+    var i = hydrated.indexOf(v);
+    if (i !== -1) { hydrated.splice(i, 1); }
+  }
+
+  // Load, but do NOT play — playback is bound to actual visibility, not to the
+  // preload window (a clip playing off-screen is wasted decode, and the reviewer
+  // wants whatever they scrolled to to be the thing that is moving).
+  function hydrate(v) {
+    if (v.dataset.hydrated === "1") { return; }
+    if (hydrated.length >= CAP) { release(hydrated[0]); }
+    v.src = v.dataset.src;
+    v.load();
+    v.dataset.hydrated = "1";
+    hydrated.push(v);
+  }
+
+  function playFromStart(v) {
+    hydrate(v);
+    if (v.dataset.playing === "1") { return; }
+    v.dataset.playing = "1";
+    try { v.currentTime = 0; } catch (e) {}  // restart so the grasp is never missed mid-motion
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }  // autoplay can be rejected; ignore
+  }
+
+  // Preload window: hydrate ~one viewport ahead so a card is decodable by the
+  // time it is scrolled to. Hydration alone never starts playback.
+  var nearObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { hydrate(entry.target); }
+    });
+  }, { rootMargin: "100% 0px 100% 0px" });
+
+  // Playback follows the scroll: a card plays only while it is actually on
+  // screen (>=40% visible), and pauses the moment it leaves.
+  var playObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (entry.isIntersecting) {
+        playFromStart(v);
+      } else if (v.dataset.playing === "1") {
+        v.pause();
+        v.dataset.playing = "";
+      }
+    });
+  }, { rootMargin: "0px", threshold: 0.4 });
+
+  // Fully release (drop the decoded video) once a card is well outside the
+  // window, so 100 cards never accumulate 100 live decoders.
+  var farObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (!entry.isIntersecting && v.dataset.hydrated === "1") {
+        release(v);
+      }
+    });
+  }, { rootMargin: "300% 0px 300% 0px" });
+
+  document.querySelectorAll("video[data-src]").forEach(function (v) {
+    nearObserver.observe(v);
+    playObserver.observe(v);
+    farObserver.observe(v);
+  });
+})();
+</script>
+</body></html>
