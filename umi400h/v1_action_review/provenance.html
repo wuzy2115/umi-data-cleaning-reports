@@ -377,10 +377,14 @@ function sortTable(th) {
     v.removeAttribute("src");
     v.load();
     v.dataset.hydrated = "";
+    v.dataset.playing = "";
     var i = hydrated.indexOf(v);
     if (i !== -1) { hydrated.splice(i, 1); }
   }
 
+  // Load, but do NOT play — playback is bound to actual visibility, not to the
+  // preload window (a clip playing off-screen is wasted decode, and the reviewer
+  // wants whatever they scrolled to to be the thing that is moving).
   function hydrate(v) {
     if (v.dataset.hydrated === "1") { return; }
     if (hydrated.length >= CAP) { release(hydrated[0]); }
@@ -388,22 +392,38 @@ function sortTable(th) {
     v.load();
     v.dataset.hydrated = "1";
     hydrated.push(v);
+  }
+
+  function playFromStart(v) {
+    hydrate(v);
+    if (v.dataset.playing === "1") { return; }
+    v.dataset.playing = "1";
+    try { v.currentTime = 0; } catch (e) {}  // restart so the grasp is never missed mid-motion
     var p = v.play();
     if (p && p.catch) { p.catch(function () {}); }  // autoplay can be rejected; ignore
   }
 
-  // Hydrate/play a bit before a card is scrolled to (~one viewport of margin
-  // on every side), pause once it scrolls out of that near window.
+  // Preload window: hydrate ~one viewport ahead so a card is decodable by the
+  // time it is scrolled to. Hydration alone never starts playback.
   var nearObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { hydrate(entry.target); }
+    });
+  }, { rootMargin: "100% 0px 100% 0px" });
+
+  // Playback follows the scroll: a card plays only while it is actually on
+  // screen (>=40% visible), and pauses the moment it leaves.
+  var playObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       var v = entry.target;
       if (entry.isIntersecting) {
-        hydrate(v);
-      } else if (v.dataset.hydrated === "1") {
+        playFromStart(v);
+      } else if (v.dataset.playing === "1") {
         v.pause();
+        v.dataset.playing = "";
       }
     });
-  }, { rootMargin: "100% 0px 100% 0px" });
+  }, { rootMargin: "0px", threshold: 0.4 });
 
   // Fully release (drop the decoded video) once a card is well outside the
   // window, so 100 cards never accumulate 100 live decoders.
@@ -418,6 +438,7 @@ function sortTable(th) {
 
   document.querySelectorAll("video[data-src]").forEach(function (v) {
     nearObserver.observe(v);
+    playObserver.observe(v);
     farObserver.observe(v);
   });
 })();
