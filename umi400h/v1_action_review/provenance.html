@@ -246,7 +246,7 @@
     * { transition: none !important; }
   }
 </style>
-</head><body><header class="site-header"><div class="header-inner"><a class="site-title" href="index.html">umi400h</a><nav class="top-nav"><a href="index.html">Overview</a><a href="report.html">Report</a><a href="funnel.html">Funnel</a><a href="motion.html">Motion</a><a href="gripper.html">Gripper</a><a href="scene_clusters.html">Scenes</a><a href="dedup_threshold.html">Dedup τ</a><a href="action_threshold.html">Action τ</a><a href="dedup_clusters.html">Dedup Clusters</a><a href="samples.html">Samples</a><a href="provenance.html" class="active">Provenance</a></nav></div></header><main class="container"><div class="page-head"><div class="kicker">umi400h</div><h1 class="page-title">provenance</h1></div><div class="card"><h2>git sha</h2><div>63b0218748dca00d22ce31058a4d35b9aacca9e6</div></div>
+</head><body><header class="site-header"><div class="header-inner"><a class="site-title" href="index.html">umi400h</a><nav class="top-nav"><a href="index.html">Overview</a><a href="report.html">Report</a><a href="funnel.html">Funnel</a><a href="motion.html">Motion</a><a href="gripper.html">Gripper</a><a href="scene_clusters.html">Scenes</a><a href="action_threshold.html">Action τ</a><a href="dedup_clusters.html">Dedup Clusters</a><a href="samples.html">Samples</a><a href="provenance.html" class="active">Provenance</a></nav></div></header><main class="container"><div class="page-head"><div class="kicker">umi400h</div><h1 class="page-title">provenance</h1></div><div class="card"><h2>git sha</h2><div>63b0218748dca00d22ce31058a4d35b9aacca9e6</div></div>
 <div class="card"><h2>Threshold provenance</h2><div class="table-wrap"><table><thead><tr><th onclick="sortTable(this)">key</th><th onclick="sortTable(this)">value</th><th onclick="sortTable(this)">confirmed</th><th onclick="sortTable(this)">mined_from</th></tr></thead><tbody><tr><td>motion_range</td><td data-num="true">0.0</td><td data-bool="false">False</td><td></td></tr><tr><td>motion_speed</td><td data-num="true">0.0</td><td data-bool="false">False</td><td></td></tr><tr><td>tau_vis</td><td data-num="true">0.0</td><td data-bool="false">False</td><td></td></tr><tr><td>tau_scene</td><td data-num="true">0.96</td><td data-bool="true">True</td><td>s6_scene_study.json 400h: pos(same-bag half-split) p1=0.972 &gt; neg(cross-sst bag) p99=0.952 / user 2026-07-12 (R1)</td></tr><tr><td>tau_text_task</td><td data-num="true">0.95</td><td data-bool="true">True</td><td>s6_tautext_sweep.json 400h: 28154 clusters / max 22990 / 18516 singletons / user 2026-07-12 (R2)</td></tr><tr><td>action_dist</td><td data-num="true">0.05</td><td data-bool="true">True</td><td></td></tr><tr><td>tau_pair_text</td><td data-num="true">0.98</td><td data-bool="true">True</td><td></td></tr><tr><td>vio_abs_xy</td><td data-num="true">1.924</td><td data-bool="true">True</td><td>abs_coord_2000h.json ep p90 / user 2026-07-12</td></tr><tr><td>vio_abs_z</td><td data-num="true">0.937</td><td data-bool="true">True</td><td>abs_coord_2000h.json ep p90 / user 2026-07-12</td></tr><tr><td>vio_yaw_deg</td><td data-num="true">180.0</td><td data-bool="true">True</td><td>user 2026-07-12</td></tr></tbody></table></div></div>
 <div class="card"><h2>config_snapshot.json</h2><div><pre>{
   &quot;segments_version&quot;: &quot;v2_annotation_20260609&quot;,
@@ -360,5 +360,66 @@ function sortTable(th) {
   th.dataset.asc = asc;
   rows.forEach(function (r) { tbody.appendChild(r); });
 }
+</script>
+
+<script>
+(function () {
+  // Task 17 §2: pair cards (the blind action-threshold review — up to ~100
+  // hstacked clips on one page) never carry a live `src`, only `data-src`; a
+  // naive `preload="auto"` on all of them would decode 100 videos at once and
+  // wedge the tab. This script keeps a rolling window near the viewport
+  // hydrated/playing and releases everything else.
+  var CAP = 8;  // max concurrently-hydrated (decoded) video elements
+  var hydrated = [];  // FIFO of hydrated video elements, oldest first
+
+  function release(v) {
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    v.dataset.hydrated = "";
+    var i = hydrated.indexOf(v);
+    if (i !== -1) { hydrated.splice(i, 1); }
+  }
+
+  function hydrate(v) {
+    if (v.dataset.hydrated === "1") { return; }
+    if (hydrated.length >= CAP) { release(hydrated[0]); }
+    v.src = v.dataset.src;
+    v.load();
+    v.dataset.hydrated = "1";
+    hydrated.push(v);
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }  // autoplay can be rejected; ignore
+  }
+
+  // Hydrate/play a bit before a card is scrolled to (~one viewport of margin
+  // on every side), pause once it scrolls out of that near window.
+  var nearObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (entry.isIntersecting) {
+        hydrate(v);
+      } else if (v.dataset.hydrated === "1") {
+        v.pause();
+      }
+    });
+  }, { rootMargin: "100% 0px 100% 0px" });
+
+  // Fully release (drop the decoded video) once a card is well outside the
+  // window, so 100 cards never accumulate 100 live decoders.
+  var farObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (!entry.isIntersecting && v.dataset.hydrated === "1") {
+        release(v);
+      }
+    });
+  }, { rootMargin: "300% 0px 300% 0px" });
+
+  document.querySelectorAll("video[data-src]").forEach(function (v) {
+    nearObserver.observe(v);
+    farObserver.observe(v);
+  });
+})();
 </script>
 </body></html>
