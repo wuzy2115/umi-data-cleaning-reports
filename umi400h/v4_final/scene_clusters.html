@@ -1,0 +1,368 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>umi400h — scene gate</title><script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f3ee;
+    --surface: #fffefb;
+    --surface-2: #f7f5ee;
+    --border: #e5e2d8;
+    --border-strong: #d3cfc2;
+    --ink: #1d1f23;
+    --ink-2: #565a63;
+    --ink-3: #8b8e96;
+    --accent: #b45309;
+    --accent-deep: #8a3f06;
+    --accent-soft: #f6ead9;
+    --keep: #1a7f42;
+    --drop: #b42318;
+    --head-bg: #17191d;
+    --head-ink: #ecebe6;
+    --head-muted: #9a9ca3;
+    --radius: 8px;
+    --shadow: 0 1px 2px rgba(29, 27, 20, 0.04), 0 1px 5px rgba(29, 27, 20, 0.05);
+    --shadow-lift: 0 6px 18px rgba(29, 27, 20, 0.09);
+    --page-w: 1180px;
+    --sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-deep); }
+  code, pre { font-family: var(--mono); }
+  pre {
+    font-size: 0.76rem; line-height: 1.6; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.9rem 1.05rem; overflow-x: auto;
+  }
+  ol, ul { padding-left: 1.4rem; }
+  li { margin: 0.15rem 0; }
+  .muted { color: var(--ink-2); }
+
+  /* ---- topbar --------------------------------------------------------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--head-bg);
+  }
+  .site-header::before {
+    content: ""; display: block; height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, #d97a2b 45%, rgba(217, 122, 43, 0) 100%);
+  }
+  .header-inner {
+    max-width: var(--page-w); margin: 0 auto; height: 54px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.25rem; gap: 1.25rem;
+  }
+  .site-title {
+    font-family: var(--mono); font-weight: 700; font-size: 0.82rem;
+    letter-spacing: 0.06em; color: var(--head-ink); text-decoration: none;
+    white-space: nowrap; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .site-title::before {
+    content: ""; width: 9px; height: 9px; flex: none;
+    background: var(--accent); border-radius: 2px;
+    box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.28);
+  }
+  .site-title:hover { color: #ffffff; }
+  .top-nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .top-nav a {
+    font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--head-muted); text-decoration: none;
+    white-space: nowrap; padding: 0.45rem 0.6rem; border-radius: 5px;
+    transition: color 0.12s ease, background-color 0.12s ease;
+  }
+  .top-nav a:hover { color: var(--head-ink); background: rgba(255, 255, 255, 0.07); }
+  .top-nav a.active { color: #f0b476; background: rgba(180, 83, 9, 0.20); }
+
+  /* ---- page frame ------------------------------------------------------ */
+  main.container { max-width: var(--page-w); margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+  .page-head { margin: 0.25rem 0 1.5rem; }
+  .kicker {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+  h1.page-title { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .site-footer {
+    max-width: var(--page-w); margin: 0 auto; padding: 0 1.25rem 2.5rem;
+    font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+
+  /* ---- cards ----------------------------------------------------------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 1.15rem 1.35rem 1.25rem; margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-2);
+    margin: 0 0 0.95rem; display: flex; align-items: baseline; gap: 0.6rem;
+  }
+  .card h2::before {
+    content: ""; width: 0.55rem; height: 2px; flex: none;
+    background: var(--accent); align-self: center;
+  }
+  .card > *:last-child { margin-bottom: 0; }
+
+  /* ---- stat tiles ------------------------------------------------------ */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
+  .stat {
+    position: relative; overflow: hidden;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.8rem 0.95rem 0.75rem;
+  }
+  .stat::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--border-strong);
+  }
+  .stat-keep::after { background: var(--keep); }
+  .stat-drop::after { background: var(--drop); }
+  .stat-accent::after { background: var(--accent); }
+  .stat-label {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.3rem;
+  }
+  .stat-value {
+    font-family: var(--mono); font-size: 1.45rem; font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.15; color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-keep .stat-value { color: var(--keep); }
+  .stat-drop .stat-value { color: var(--drop); }
+  .stat-accent .stat-value { color: var(--accent-deep); }
+  .stat-sub { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-2); margin-top: 0.28rem; }
+
+  /* ---- tables ---------------------------------------------------------- */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  thead th {
+    font-family: var(--mono); font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+    text-align: left; padding: 0.45rem 0.7rem;
+    border-bottom: 1px solid var(--border-strong);
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th::after { content: "\2195"; margin-left: 0.4em; opacity: 0.35; }
+  thead th[data-asc="true"]::after { content: "\2191"; opacity: 1; color: var(--accent); }
+  thead th[data-asc="false"]::after { content: "\2193"; opacity: 1; color: var(--accent); }
+  thead th:hover { color: var(--accent); }
+  tbody td { padding: 0.42rem 0.7rem; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface-2); }
+  td[data-num] { text-align: right; font-family: var(--mono); font-size: 0.78rem; }
+  td[data-bool] { font-family: var(--mono); font-size: 0.75rem; }
+  td[data-bool="true"] { color: var(--keep); }
+  td[data-bool="false"] { color: var(--drop); }
+  td[data-bool]::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    margin-right: 0.45em; vertical-align: 1px; background: currentColor;
+  }
+
+  /* ---- plotly ---------------------------------------------------------- */
+  .plotly-fig { width: 100%; height: 420px; }
+
+  /* ---- media walls ----------------------------------------------------- */
+  .media-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .media-item {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .media-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+  .media-item video, .media-item img {
+    width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #101113;
+    border-radius: 5px; display: block;
+  }
+  .media-item.rep { border-left: 3px solid var(--keep); }
+  .media-item.member { border-left: 3px solid var(--drop); }
+  /* Task 16 review fix: a hstacked side-by-side pair clip is ~32:9, not 16:9 —
+     the shared `cover`/`16:9` rule above crops roughly half of each side clip
+     (exactly the grasp/place endpoints a blind reviewer needs to see). Pair
+     cards get their own full-width row and an unset aspect ratio. Callers also
+     set an inline style override directly on the media element (belt-and-
+     suspenders: correctness never depends on this rule's cascade precedence). */
+  .media-item.pair { grid-column: 1 / -1; }
+  .media-wall .media-item.pair video, .media-wall .media-item.pair img {
+    aspect-ratio: auto; object-fit: contain; max-height: 70vh;
+  }
+  .media-item .badge {
+    position: absolute; top: 12px; left: 12px;
+    font-family: var(--mono); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.09em; padding: 0.16rem 0.42rem; border-radius: 3px;
+  }
+  .media-item.rep .badge { background: var(--keep); color: #ffffff; }
+  .media-item.member .badge { background: var(--drop); color: #ffffff; }
+  .caption {
+    font-family: var(--mono); font-size: 0.66rem; line-height: 1.5;
+    color: var(--ink-2); word-break: break-all; margin-top: 0.4rem; padding: 0 2px 2px;
+  }
+
+  /* ---- index landing grid ---------------------------------------------- */
+  .landing-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px; counter-reset: pagecard;
+  }
+  .landing-card {
+    position: relative; display: block;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.95rem 1.05rem 0.9rem; text-decoration: none; color: inherit;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+  .landing-card::before {
+    counter-increment: pagecard; content: counter(pagecard, decimal-leading-zero);
+    display: block; font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 0.45rem;
+  }
+  .landing-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow-lift); }
+  .landing-card .t { font-weight: 600; font-size: 0.92rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .landing-card .t::after { content: " \2192"; color: var(--accent); opacity: 0; transition: opacity 0.12s ease; }
+  .landing-card:hover .t { color: var(--accent-deep); }
+  .landing-card:hover .t::after { opacity: 1; }
+  .landing-card .d { font-size: 0.76rem; color: var(--ink-2); line-height: 1.5; }
+
+  /* ---- responsive ------------------------------------------------------ */
+  @media (max-width: 768px) {
+    .header-inner { height: auto; flex-direction: column; align-items: flex-start; gap: 0.25rem; padding: 0.55rem 1rem 0.6rem; }
+    .top-nav { width: 100%; }
+    main.container { padding: 1.25rem 0.85rem 2.5rem; }
+    .card { padding: 0.95rem 1rem 1rem; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 1.2rem; }
+    .media-wall { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .plotly-fig { height: 320px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head><body><header class="site-header"><div class="header-inner"><a class="site-title" href="index.html">umi400h</a><nav class="top-nav"><a href="index.html">Overview</a><a href="report.html">Report</a><a href="funnel.html">Funnel</a><a href="motion.html">Motion</a><a href="gripper.html">Gripper</a><a href="scene_clusters.html" class="active">Scenes</a><a href="action_threshold.html">Action τ</a><a href="dedup_clusters.html">Dedup Clusters</a><a href="samples.html">Samples</a><a href="provenance.html">Provenance</a></nav></div></header><main class="container"><div class="page-head"><div class="kicker">umi400h</div><h1 class="page-title">scene gate</h1></div><div class="card"><h2>Scene clustering (bag → scene within sst)</h2><div class="stat-grid"><div class="stat"><div class="stat-label">scenes</div><div class="stat-value">371</div></div><div class="stat stat-accent"><div class="stat-label">multi-bag scenes</div><div class="stat-value">304</div></div><div class="stat"><div class="stat-label">biggest scene (segments)</div><div class="stat-value">8,197</div></div></div></div>
+<div class="card"><h2>tau_scene separation (same-scene pos vs cross-sst neg)</h2><div><p class="muted">Pick <code>tau_scene</code> above the neg high-quantiles and below the pos low-quantiles.</p></div>
+<div class="table-wrap"><table><thead><tr><th onclick="sortTable(this)">quantile</th><th onclick="sortTable(this)">pos_q</th><th onclick="sortTable(this)">neg_q</th></tr></thead><tbody><tr><td>p1</td><td data-num="true">0.9720220398902893</td><td data-num="true">0.7923629832267761</td></tr><tr><td>p5</td><td data-num="true">0.985770833492279</td><td data-num="true">0.8204670459032058</td></tr><tr><td>p10</td><td data-num="true">0.9899124383926392</td><td data-num="true">0.8338343024253845</td></tr><tr><td>p25</td><td data-num="true">0.9943211078643799</td><td data-num="true">0.8570441901683807</td></tr><tr><td>p50</td><td data-num="true">0.9968518018722534</td><td data-num="true">0.8824883699417114</td></tr><tr><td>p75</td><td data-num="true">0.9982188940048218</td><td data-num="true">0.9067963510751724</td></tr><tr><td>p90</td><td data-num="true">0.9989345073699951</td><td data-num="true">0.9264142870903016</td></tr><tr><td>p99</td><td data-num="true">0.9996401166915894</td><td data-num="true">0.952202570438385</td></tr></tbody></table></div>
+<div id="plotly-1" class="plotly-fig"></div><script>(function(){var _l = Object.assign({"font": {"family": "-apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif", "size": 12, "color": "#42454c"}, "paper_bgcolor": "rgba(0,0,0,0)", "plot_bgcolor": "rgba(0,0,0,0)", "margin": {"t": 44, "r": 20}, "template": {"layout": {"colorway": ["#b45309", "#31708e", "#5f7a3a", "#8a4f7d", "#50555e", "#c98a2e"], "xaxis": {"gridcolor": "#ebe8df", "linecolor": "#d3cfc2", "zerolinecolor": "#d3cfc2", "ticks": "outside", "tickcolor": "#d3cfc2"}, "yaxis": {"gridcolor": "#ebe8df", "linecolor": "#d3cfc2", "zerolinecolor": "#d3cfc2", "ticks": "outside", "tickcolor": "#d3cfc2"}, "title": {"font": {"family": "-apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif", "size": 13, "color": "#565a63"}, "x": 0}, "legend": {"font": {"size": 11}, "bgcolor": "rgba(0,0,0,0)"}}}}, {"title": "tau_scene study (n_pos=10713, n_neg=20000)", "yaxis": {"title": "cosine sim"}});Plotly.newPlot("plotly-1", [{"type": "scatter", "mode": "lines+markers", "name": "pos_q (same scene)", "x": ["p1", "p5", "p10", "p25", "p50", "p75", "p90", "p99"], "y": [0.9720220398902893, 0.985770833492279, 0.9899124383926392, 0.9943211078643799, 0.9968518018722534, 0.9982188940048218, 0.9989345073699951, 0.9996401166915894]}, {"type": "scatter", "mode": "lines+markers", "name": "neg_q (cross-sst)", "x": ["p1", "p5", "p10", "p25", "p50", "p75", "p90", "p99"], "y": [0.7923629832267761, 0.8204670459032058, 0.8338343024253845, 0.8570441901683807, 0.8824883699417114, 0.9067963510751724, 0.9264142870903016, 0.952202570438385]}], _l, {responsive: true});})();</script></div>
+<div class="card"><h2>Per-scene contact strips (top multi-bag scenes)</h2></div>
+<div class="card"><h2>Scene 179 (436 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/1ffad9a3a7194806af58a266af38cd4d.mcap.jpg"><div class="caption">1ffad9a3a7194806af58a266af38cd4d.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/2f56477375b94535a948ac97bd8ea78c.mcap.jpg"><div class="caption">2f56477375b94535a948ac97bd8ea78c.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/48eeb696be0649e1b96557898523a847.mcap.jpg"><div class="caption">48eeb696be0649e1b96557898523a847.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/abe65c12b1e34c1bb470a3df23f20a6d.mcap.jpg"><div class="caption">abe65c12b1e34c1bb470a3df23f20a6d.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/fc46a8434d424e978381905456173760.mcap.jpg"><div class="caption">fc46a8434d424e978381905456173760.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/5087bcea4edc49eb90eb0d080df4a250.mcap.jpg"><div class="caption">5087bcea4edc49eb90eb0d080df4a250.mcap · 34 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/646f36f3cfe440e2866164df57e1c797.mcap.jpg"><div class="caption">646f36f3cfe440e2866164df57e1c797.mcap · 34 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/700e8a1000394b7a81508308da5dfdec.mcap.jpg"><div class="caption">700e8a1000394b7a81508308da5dfdec.mcap · 34 seg</div></div></div></div>
+<div class="card"><h2>Scene 81 (138 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/1a1d788d41f14115ba15b3a7e7822f77.mcap.jpg"><div class="caption">1a1d788d41f14115ba15b3a7e7822f77.mcap · 73 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/bc4414e626b5406397e5dbd62c9a9937.mcap.jpg"><div class="caption">bc4414e626b5406397e5dbd62c9a9937.mcap · 70 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/d4c6e4b9df7c438385a5e0d96ea85043.mcap.jpg"><div class="caption">d4c6e4b9df7c438385a5e0d96ea85043.mcap · 64 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/e2db587ffd5f4d7081b71fcbfa4bd0d5.mcap.jpg"><div class="caption">e2db587ffd5f4d7081b71fcbfa4bd0d5.mcap · 64 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/601d5f8578b042d3854fdadccb567089.mcap.jpg"><div class="caption">601d5f8578b042d3854fdadccb567089.mcap · 54 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/220ba84c42294557a6f5fe50f82ef0e0.mcap.jpg"><div class="caption">220ba84c42294557a6f5fe50f82ef0e0.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/d7962a82588043c8b475cbb0d403be2a.mcap.jpg"><div class="caption">d7962a82588043c8b475cbb0d403be2a.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/145aa9ab5f5b439e9db6aced11a79169.mcap.jpg"><div class="caption">145aa9ab5f5b439e9db6aced11a79169.mcap · 50 seg</div></div></div></div>
+<div class="card"><h2>Scene 325 (99 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/a87df21facb1405ba7af6fb54960c173.mcap.jpg"><div class="caption">a87df21facb1405ba7af6fb54960c173.mcap · 59 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b33b8d015d954ce9b6b38e39c19d4769.mcap.jpg"><div class="caption">b33b8d015d954ce9b6b38e39c19d4769.mcap · 58 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/c100d721e0144699a18fc3b6b1f88603.mcap.jpg"><div class="caption">c100d721e0144699a18fc3b6b1f88603.mcap · 58 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/724fc3052cb24ce8aefa07387db43c59.mcap.jpg"><div class="caption">724fc3052cb24ce8aefa07387db43c59.mcap · 57 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/daea8466802146be80b17463ba2ec5b6.mcap.jpg"><div class="caption">daea8466802146be80b17463ba2ec5b6.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/c455e8cd16034d9aaa29e88ff979074f.mcap.jpg"><div class="caption">c455e8cd16034d9aaa29e88ff979074f.mcap · 52 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/af55a5ced237467a9683ffbb014ffe46.mcap.jpg"><div class="caption">af55a5ced237467a9683ffbb014ffe46.mcap · 51 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/46d5df7941e2439aa8ee508bb112f05b.mcap.jpg"><div class="caption">46d5df7941e2439aa8ee508bb112f05b.mcap · 50 seg</div></div></div></div>
+<div class="card"><h2>Scene 85 (153 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/57afba76fe124e99817a27c92d6758cd.mcap.jpg"><div class="caption">57afba76fe124e99817a27c92d6758cd.mcap · 39 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/6003504da3204f91b0b467ffabb492b9.mcap.jpg"><div class="caption">6003504da3204f91b0b467ffabb492b9.mcap · 39 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/f39f9f3fe88349f9abf4bc58b11bc822.mcap.jpg"><div class="caption">f39f9f3fe88349f9abf4bc58b11bc822.mcap · 39 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/57ff4265e7094a88ba7b9762e00855e6.mcap.jpg"><div class="caption">57ff4265e7094a88ba7b9762e00855e6.mcap · 38 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/ff5393c861544925b096d4ede4745241.mcap.jpg"><div class="caption">ff5393c861544925b096d4ede4745241.mcap · 38 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/3ae4bf196239496da0c48cc07e6423ed.mcap.jpg"><div class="caption">3ae4bf196239496da0c48cc07e6423ed.mcap · 37 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/8a085f92750841dabdbab7450a01bd11.mcap.jpg"><div class="caption">8a085f92750841dabdbab7450a01bd11.mcap · 37 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/03b0d24d8f82469c9f65dfc24af18ca9.mcap.jpg"><div class="caption">03b0d24d8f82469c9f65dfc24af18ca9.mcap · 36 seg</div></div></div></div>
+<div class="card"><h2>Scene 83 (113 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/0a7fb18b9d054c8ca03a976d9739c9dc.mcap.jpg"><div class="caption">0a7fb18b9d054c8ca03a976d9739c9dc.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/4fab24bd12a6486fa194b2eefae8d256.mcap.jpg"><div class="caption">4fab24bd12a6486fa194b2eefae8d256.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/76598be77c9b4bdb996f1e149606463b.mcap.jpg"><div class="caption">76598be77c9b4bdb996f1e149606463b.mcap · 52 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/57ab091c434f489ba4652704b995b746.mcap.jpg"><div class="caption">57ab091c434f489ba4652704b995b746.mcap · 48 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/4fb3d05315b241fab860f38f79427d62.mcap.jpg"><div class="caption">4fb3d05315b241fab860f38f79427d62.mcap · 44 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/3c3b17dc1446480dbb9f9598d0c481bc.mcap.jpg"><div class="caption">3c3b17dc1446480dbb9f9598d0c481bc.mcap · 42 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/05abff0d4fc64795903ee3eadfd8be95.mcap.jpg"><div class="caption">05abff0d4fc64795903ee3eadfd8be95.mcap · 41 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/3ad3e9b6d46d4443afb8fbe6234ccc01.mcap.jpg"><div class="caption">3ad3e9b6d46d4443afb8fbe6234ccc01.mcap · 40 seg</div></div></div></div>
+<div class="card"><h2>Scene 128 (214 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/f6e994af243e4659b2e307f00a70f3b2.mcap.jpg"><div class="caption">f6e994af243e4659b2e307f00a70f3b2.mcap · 55 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/60cdb200629144399a1f7fd500aad635.mcap.jpg"><div class="caption">60cdb200629144399a1f7fd500aad635.mcap · 46 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/94e854235a6e43e08f2d5b4137a41b64.mcap.jpg"><div class="caption">94e854235a6e43e08f2d5b4137a41b64.mcap · 44 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/91fb39ca256a423792e357d710a937fa.mcap.jpg"><div class="caption">91fb39ca256a423792e357d710a937fa.mcap · 43 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/af8129dec6a648638532c1751c081c43.mcap.jpg"><div class="caption">af8129dec6a648638532c1751c081c43.mcap · 35 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/0d2f507aff3048258801a2c5a6de6768.mcap.jpg"><div class="caption">0d2f507aff3048258801a2c5a6de6768.mcap · 34 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/a49edd4379f94293a24501ef20b659b7.mcap.jpg"><div class="caption">a49edd4379f94293a24501ef20b659b7.mcap · 33 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/ced5de25ef014a84ab6c27a6650ab983.mcap.jpg"><div class="caption">ced5de25ef014a84ab6c27a6650ab983.mcap · 33 seg</div></div></div></div>
+<div class="card"><h2>Scene 233 (96 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/96e993d2728144bca3af381f88a739a8.mcap.jpg"><div class="caption">96e993d2728144bca3af381f88a739a8.mcap · 57 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/861547688f454364bfa0d061ba3162ac.mcap.jpg"><div class="caption">861547688f454364bfa0d061ba3162ac.mcap · 56 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/28fbb4c4e28e4edc96234f8847253311.mcap.jpg"><div class="caption">28fbb4c4e28e4edc96234f8847253311.mcap · 54 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/7c23cf823f464e42a4ba1c9b81cb5f60.mcap.jpg"><div class="caption">7c23cf823f464e42a4ba1c9b81cb5f60.mcap · 53 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/7f8170822b1547489e41e91c4ee65602.mcap.jpg"><div class="caption">7f8170822b1547489e41e91c4ee65602.mcap · 51 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/a1ba7a1d9e0b468481bc7cec5b24ff97.mcap.jpg"><div class="caption">a1ba7a1d9e0b468481bc7cec5b24ff97.mcap · 50 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/66071f0bec6d4f91b6f86266194389c7.mcap.jpg"><div class="caption">66071f0bec6d4f91b6f86266194389c7.mcap · 48 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b0c91b28080548b0ab6f587be840d595.mcap.jpg"><div class="caption">b0c91b28080548b0ab6f587be840d595.mcap · 48 seg</div></div></div></div>
+<div class="card"><h2>Scene 86 (163 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/0b5057788a714d7c8c695906c4bd4233.mcap.jpg"><div class="caption">0b5057788a714d7c8c695906c4bd4233.mcap · 31 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/12c74537af394a7cb3497730f5961b25.mcap.jpg"><div class="caption">12c74537af394a7cb3497730f5961b25.mcap · 29 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/314a0399424848d9a546b8d64c6894d5.mcap.jpg"><div class="caption">314a0399424848d9a546b8d64c6894d5.mcap · 29 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/28212f078e8040e8ae154c4d3624190f.mcap.jpg"><div class="caption">28212f078e8040e8ae154c4d3624190f.mcap · 28 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/7e09d273d5ef4d54aa27136caa03a6a2.mcap.jpg"><div class="caption">7e09d273d5ef4d54aa27136caa03a6a2.mcap · 28 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/a4326743570e48fa92a341250bf72134.mcap.jpg"><div class="caption">a4326743570e48fa92a341250bf72134.mcap · 28 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/af938cf17d57472189a1187da3426ede.mcap.jpg"><div class="caption">af938cf17d57472189a1187da3426ede.mcap · 28 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/dbb3028a6c214973957c8db1f15a6d22.mcap.jpg"><div class="caption">dbb3028a6c214973957c8db1f15a6d22.mcap · 28 seg</div></div></div></div>
+<div class="card"><h2>Scene 235 (104 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/d6b0513080514cec97bd8feec7fb5ea1.mcap.jpg"><div class="caption">d6b0513080514cec97bd8feec7fb5ea1.mcap · 49 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/54469c243b424fa1aa175dc61a83c912.mcap.jpg"><div class="caption">54469c243b424fa1aa175dc61a83c912.mcap · 46 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b615d77b7338479a82a0e25776531c75.mcap.jpg"><div class="caption">b615d77b7338479a82a0e25776531c75.mcap · 45 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b526a427752843ea89b9978f3c3f3239.mcap.jpg"><div class="caption">b526a427752843ea89b9978f3c3f3239.mcap · 43 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b8b73a2ce16d4b87a04b9d1b7f74a933.mcap.jpg"><div class="caption">b8b73a2ce16d4b87a04b9d1b7f74a933.mcap · 43 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/c99eeac27ccf4dd982491b5ca2f0e338.mcap.jpg"><div class="caption">c99eeac27ccf4dd982491b5ca2f0e338.mcap · 43 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/fd227ccfe4c144ef9b8410a2b1b8e19a.mcap.jpg"><div class="caption">fd227ccfe4c144ef9b8410a2b1b8e19a.mcap · 43 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/49725709f0bb48ab825020110b7e619d.mcap.jpg"><div class="caption">49725709f0bb48ab825020110b7e619d.mcap · 42 seg</div></div></div></div>
+<div class="card"><h2>Scene 248 (198 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/af275bc393934a65a50b290ad78f1244.mcap.jpg"><div class="caption">af275bc393934a65a50b290ad78f1244.mcap · 32 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/8b6ff5c550c6465f966d5e25e19e294a.mcap.jpg"><div class="caption">8b6ff5c550c6465f966d5e25e19e294a.mcap · 26 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/ff2c0521f0484409b2fd7cc6928ae91e.mcap.jpg"><div class="caption">ff2c0521f0484409b2fd7cc6928ae91e.mcap · 25 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/498b3a443d914b7bb161b6f913bf4e71.mcap.jpg"><div class="caption">498b3a443d914b7bb161b6f913bf4e71.mcap · 24 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/de02f9fb322b46ec9b549051d48793a4.mcap.jpg"><div class="caption">de02f9fb322b46ec9b549051d48793a4.mcap · 24 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/01ef61e98287499aad2dd6b5c639d70d.mcap.jpg"><div class="caption">01ef61e98287499aad2dd6b5c639d70d.mcap · 22 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/07236f6a515e454e97d6559dbc85f931.mcap.jpg"><div class="caption">07236f6a515e454e97d6559dbc85f931.mcap · 22 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/43d962de59fb4d68b3d4395d66eb3cc2.mcap.jpg"><div class="caption">43d962de59fb4d68b3d4395d66eb3cc2.mcap · 22 seg</div></div></div></div>
+<div class="card"><h2>Scene 130 (121 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/d18dc87a74eb4d95942ee42eb05c6b36.mcap.jpg"><div class="caption">d18dc87a74eb4d95942ee42eb05c6b36.mcap · 49 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/9386993af0bd438e8790208d7016af9d.mcap.jpg"><div class="caption">9386993af0bd438e8790208d7016af9d.mcap · 46 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/c2c357db71c94918b340511d62db7a2c.mcap.jpg"><div class="caption">c2c357db71c94918b340511d62db7a2c.mcap · 42 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/0ad3d33b1bd044d1a0b5d8e09546116e.mcap.jpg"><div class="caption">0ad3d33b1bd044d1a0b5d8e09546116e.mcap · 38 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/a362f4a9609f43768a4f3de86e8327db.mcap.jpg"><div class="caption">a362f4a9609f43768a4f3de86e8327db.mcap · 38 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/080fe4950ade43198aff05752d518f5b.mcap.jpg"><div class="caption">080fe4950ade43198aff05752d518f5b.mcap · 37 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/791a4f53c5ed4109b3026d1324bdee72.mcap.jpg"><div class="caption">791a4f53c5ed4109b3026d1324bdee72.mcap · 37 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/63dffd7af92848199359da8f1516955a.mcap.jpg"><div class="caption">63dffd7af92848199359da8f1516955a.mcap · 35 seg</div></div></div></div>
+<div class="card"><h2>Scene 113 (104 bags)</h2><div class="media-wall"><div class="media-item "><img loading="lazy" src="media/scene/27885d7b6412414b94d23b67972dcbe5.mcap.jpg"><div class="caption">27885d7b6412414b94d23b67972dcbe5.mcap · 33 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/c36825f588e245869381e3a4cd27e756.mcap.jpg"><div class="caption">c36825f588e245869381e3a4cd27e756.mcap · 33 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/2b45f25cec9742b0a10428bfa1651a51.mcap.jpg"><div class="caption">2b45f25cec9742b0a10428bfa1651a51.mcap · 32 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/7347017cae50415f819fc91185c3df5f.mcap.jpg"><div class="caption">7347017cae50415f819fc91185c3df5f.mcap · 32 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/78afa2ecc4644767a30231221bceb046.mcap.jpg"><div class="caption">78afa2ecc4644767a30231221bceb046.mcap · 31 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/b59bb7aa62fc4a33bc0f1185403c1cc5.mcap.jpg"><div class="caption">b59bb7aa62fc4a33bc0f1185403c1cc5.mcap · 30 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/11a407e64f3742b88ec0688711c66efd.mcap.jpg"><div class="caption">11a407e64f3742b88ec0688711c66efd.mcap · 29 seg</div></div><div class="media-item "><img loading="lazy" src="media/scene/750a279b4279489da1bd005d5a1b2da9.mcap.jpg"><div class="caption">750a279b4279489da1bd005d5a1b2da9.mcap · 29 seg</div></div></div></div></main><footer class="site-footer">umi400h · S8 cleaning review · static report</footer>
+<script>
+function sortTable(th) {
+  var table = th.closest("table");
+  var idx = Array.prototype.indexOf.call(th.parentNode.children, th);
+  var tbody = table.querySelector("tbody");
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
+  var asc = th.dataset.asc !== "true";
+  rows.sort(function (a, b) {
+    var av = a.children[idx].innerText, bv = b.children[idx].innerText;
+    var an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) { return asc ? an - bn : bn - an; }
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  Array.prototype.forEach.call(th.parentNode.children, function (o) {
+    if (o !== th) { delete o.dataset.asc; }
+  });
+  th.dataset.asc = asc;
+  rows.forEach(function (r) { tbody.appendChild(r); });
+}
+</script>
+
+<script>
+(function () {
+  // Task 17 §2: pair cards (the blind action-threshold review — up to ~100
+  // hstacked clips on one page) never carry a live `src`, only `data-src`; a
+  // naive `preload="auto"` on all of them would decode 100 videos at once and
+  // wedge the tab. This script keeps a rolling window near the viewport
+  // hydrated/playing and releases everything else.
+  var CAP = 8;  // max concurrently-hydrated (decoded) video elements
+  var hydrated = [];  // FIFO of hydrated video elements, oldest first
+
+  function release(v) {
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    v.dataset.hydrated = "";
+    v.dataset.playing = "";
+    var i = hydrated.indexOf(v);
+    if (i !== -1) { hydrated.splice(i, 1); }
+  }
+
+  // Load, but do NOT play — playback is bound to actual visibility, not to the
+  // preload window (a clip playing off-screen is wasted decode, and the reviewer
+  // wants whatever they scrolled to to be the thing that is moving).
+  function hydrate(v) {
+    if (v.dataset.hydrated === "1") { return; }
+    if (hydrated.length >= CAP) { release(hydrated[0]); }
+    v.src = v.dataset.src;
+    v.load();
+    v.dataset.hydrated = "1";
+    hydrated.push(v);
+  }
+
+  function playFromStart(v) {
+    hydrate(v);
+    if (v.dataset.playing === "1") { return; }
+    v.dataset.playing = "1";
+    try { v.currentTime = 0; } catch (e) {}  // restart so the grasp is never missed mid-motion
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }  // autoplay can be rejected; ignore
+  }
+
+  // Preload window: hydrate ~one viewport ahead so a card is decodable by the
+  // time it is scrolled to. Hydration alone never starts playback.
+  var nearObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { hydrate(entry.target); }
+    });
+  }, { rootMargin: "100% 0px 100% 0px" });
+
+  // Playback follows the scroll: a card plays only while it is actually on
+  // screen (>=40% visible), and pauses the moment it leaves.
+  var playObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (entry.isIntersecting) {
+        playFromStart(v);
+      } else if (v.dataset.playing === "1") {
+        v.pause();
+        v.dataset.playing = "";
+      }
+    });
+  }, { rootMargin: "0px", threshold: 0.4 });
+
+  // Fully release (drop the decoded video) once a card is well outside the
+  // window, so 100 cards never accumulate 100 live decoders.
+  var farObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var v = entry.target;
+      if (!entry.isIntersecting && v.dataset.hydrated === "1") {
+        release(v);
+      }
+    });
+  }, { rootMargin: "300% 0px 300% 0px" });
+
+  document.querySelectorAll("video[data-src]").forEach(function (v) {
+    nearObserver.observe(v);
+    playObserver.observe(v);
+    farObserver.observe(v);
+  });
+})();
+</script>
+</body></html>
