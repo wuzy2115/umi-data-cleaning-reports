@@ -1,0 +1,191 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>replay τ=0.3 盲看 · v6_threshold_signoff</title>
+<style>
+body { font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", sans-serif; background:#f5f3ee; color:#2b2d31; margin:0; padding:24px; }
+h1 { font-size: 1.2rem; } .note { max-width: 900px; line-height: 1.6; color:#565a63; font-size:.9rem; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(620px,1fr)); gap:16px; margin-top:20px; }
+.cell { background:#fff; border:1px solid #ddd8cc; border-radius:8px; padding:10px; }
+.cell video { width:100%; display:block; border-radius:5px; background:#101113; }
+.tag { font-family: ui-monospace, monospace; font-size:.75rem; font-weight:700; margin-bottom:6px; }
+.vote { font-size:.78rem; color:#8a4f7d; margin-top:6px; }
+a { color:#31708e; }
+</style></head><body>
+<h1>replay τ=0.3 边界盲看(20 段,infeasible_rate_chunk ∈ 0.2–0.5,hands-only)</h1>
+<div class="note">每格:左 = ego 原视频,右 = Marvin 双手 IK 回放(标题逐帧 OK 绿 / INFEASIBLE 红,X=目标 O=实际,虚线=夹爪工具连杆)。
+这 20 段一半在 0.3 线以下(将保留)、一半在线上(将杀),顺序打乱、比率不显示。
+你看的问题:<b>整体红帧多的段,是不是确实烂到不值得留?</b> 有异议的报 rtNNN;整体没问题就回一句"τ=0.3 OK",我就翻 confirmed 跑正式 S7。
+另一个 tab:<a href="calm_blind.html">calm_floor 盲判(已完成)</a>。</div>
+<div class="grid">
+<div class="cell"><div class="tag">rt000</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt000.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt001</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt001.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt002</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt002.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt003</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt003.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt004</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt004.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt005</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt005.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt006</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt006.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt007</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt007.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt008</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt008.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt009</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt009.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt010</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt010.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt011</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt011.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt012</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt012.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt013</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt013.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt014</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt014.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt015</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt015.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt016</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt016.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt017</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt017.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt018</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt018.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div><div class="cell"><div class="tag">rt019</div>
+<video controls muted loop playsinline preload="none" data-src="media/rt019.mp4"></video>
+<div class="vote">判定:__该杀__ / __可留__ / __不确定__</div></div>
+</div>
+<script>
+(function () {
+  var PREFETCH_MARGIN = "1200px 0px";
+  var KEEP = 6;
+  var MAX_PARALLEL = 2;
+  var PLAY_THRESHOLD = 0.35;
+
+  var videos = [].slice.call(document.querySelectorAll("video[data-src]"));
+  if (!videos.length || !("IntersectionObserver" in window)) {
+    videos.forEach(function (v) { v.src = v.dataset.src; });
+    return;
+  }
+  var reduceMotion = window.matchMedia
+    && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var attached = [];   // videos holding an src, oldest first
+  var pending = [];    // videos waiting for a fetch slot
+  var inflight = 0;
+
+  function detach(v) {
+    var i = attached.indexOf(v);
+    if (i >= 0) attached.splice(i, 1);
+    if (v.dataset.state === "loading") inflight -= 1;
+    v.pause();
+    v.removeAttribute("src");
+    v.load();          // without this the buffer survives the src removal
+    v.dataset.state = "";
+  }
+
+  function evict() {
+    // Never evict what the reviewer is looking at, even above KEEP.
+    for (var i = 0; i < attached.length && attached.length > KEEP; i++) {
+      if (!attached[i].dataset.visible && attached[i].dataset.state === "ready") {
+        detach(attached[i]);
+        i -= 1;
+      }
+    }
+  }
+
+  function pump() {
+    while (inflight < MAX_PARALLEL && pending.length) {
+      var v = pending.shift();
+      if (v.dataset.state !== "queued") continue;
+      inflight += 1;
+      v.dataset.state = "loading";
+      v.preload = "auto";
+      v.src = v.dataset.src;
+      v.load();
+      attached.push(v);
+      evict();
+    }
+  }
+
+  function release(v) {
+    if (v.dataset.state !== "loading") return;
+    v.dataset.state = "ready";
+    inflight -= 1;
+    pump();
+  }
+
+  function request(v) {
+    if (v.dataset.state) return;   // queued | loading | ready
+    v.dataset.state = "queued";
+    pending.push(v);
+    pump();
+  }
+
+  function prioritize(v) {
+    var i = pending.indexOf(v);
+    if (i > 0) {
+      pending.splice(i, 1);
+      pending.unshift(v);
+    }
+  }
+
+  function play(v) {
+    if (reduceMotion) return;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // src not attached yet
+  }
+
+  var prefetch = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        request(v);
+      } else if (v.dataset.state === "queued") {
+        var i = pending.indexOf(v);
+        if (i >= 0) pending.splice(i, 1);
+        v.dataset.state = "";
+      } else if (v.dataset.state) {
+        detach(v);
+      }
+    });
+  }, {rootMargin: PREFETCH_MARGIN});
+
+  var viewport = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        v.dataset.visible = "1";
+        request(v);
+        prioritize(v);
+        play(v);
+      } else {
+        delete v.dataset.visible;
+        v.pause();
+      }
+    });
+  }, {threshold: PLAY_THRESHOLD});
+
+  videos.forEach(function (v) {
+    v.dataset.state = "";
+    // A clip that finished buffering must hand its fetch slot to the next one;
+    // "suspend" covers the browser deciding it has buffered enough, "error"
+    // covers a missing file (a dead slot would stall every later prefetch).
+    ["canplaythrough", "suspend", "error"].forEach(function (evt) {
+      v.addEventListener(evt, function () { release(v); });
+    });
+    // Autoplay is retried here because the viewport observer usually fires
+    // before the src is attached, so its play() call is rejected.
+    v.addEventListener("loadeddata", function () {
+      if (v.dataset.visible) play(v);
+    });
+    prefetch.observe(v);
+    viewport.observe(v);
+  });
+})();
+</script>
+</body></html>
