@@ -1,0 +1,230 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>calm_floor 盲判 · v6_threshold_signoff</title>
+<style>
+body { font-family: -apple-system, "Segoe UI", Roboto, "PingFang SC", sans-serif; background:#f5f3ee; color:#2b2d31; margin:0; padding:24px; }
+h1 { font-size: 1.2rem; } .note { max-width: 900px; line-height: 1.6; color:#565a63; font-size:.9rem; }
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(560px,1fr)); gap:16px; margin-top:20px; }
+.cell { background:#fff; border:1px solid #ddd8cc; border-radius:8px; padding:10px; }
+.cell video { width:100%; display:block; border-radius:5px; background:#101113; }
+.tag { font-family: ui-monospace, monospace; font-size:.75rem; font-weight:700; margin-bottom:6px; }
+.vote { font-size:.78rem; color:#8a4f7d; margin-top:6px; }
+</style></head><body>
+<h1>calm_floor 模糊带盲判(40 样本)</h1>
+<div class="note">每格:左 = ego 头相机「图像最平静的 10 秒」;右 = 同步 VIO xy 轨迹(红游标,绿点=起点,米制刻度)。
+判断:这 10 秒里 VIO 的移动是<b>真实走动/身体移动</b>,还是<b>画面基本没动但 VIO 在漂</b>?
+每个样本回我一条:<code>cbNNN: 走路 / 漂移 / 不确定</code>(顺序已打乱,与难度无关;所有指标数值均未展示)。
+背景:win_net ∈ 2–5m 模糊带,calm_floor 判别线定线依据即此盲判。</div>
+<div class="grid">
+<div class="cell"><div class="tag">#01 · cb005</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb005.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#02 · cb025</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb025.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#03 · cb009</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb009.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#04 · cb018</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb018.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#05 · cb002</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb002.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#06 · cb030</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb030.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#07 · cb038</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb038.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#08 · cb000</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb000.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#09 · cb017</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb017.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#10 · cb033</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb033.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#11 · cb032</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb032.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#12 · cb036</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb036.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#13 · cb035</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb035.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#14 · cb024</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb024.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#15 · cb023</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb023.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#16 · cb027</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb027.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#17 · cb034</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb034.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#18 · cb008</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb008.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#19 · cb039</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb039.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#20 · cb003</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb003.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#21 · cb022</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb022.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#22 · cb026</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb026.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#23 · cb019</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb019.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#24 · cb006</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb006.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#25 · cb028</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb028.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#26 · cb016</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb016.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#27 · cb031</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb031.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#28 · cb010</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb010.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#29 · cb037</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb037.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#30 · cb020</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb020.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#31 · cb001</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb001.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#32 · cb029</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb029.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#33 · cb015</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb015.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#34 · cb021</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb021.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#35 · cb013</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb013.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#36 · cb011</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb011.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#37 · cb012</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb012.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#38 · cb004</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb004.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#39 · cb014</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb014.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div><div class="cell"><div class="tag">#40 · cb007</div>
+<video controls muted loop playsinline preload="none" data-src="media/cb007.mp4"></video>
+<div class="vote">判定:__走路__ / __漂移__ / __不确定__</div></div>
+</div>
+<script>
+(function () {
+  var PREFETCH_MARGIN = "1200px 0px";
+  var KEEP = 6;
+  var MAX_PARALLEL = 2;
+  var PLAY_THRESHOLD = 0.35;
+
+  var videos = [].slice.call(document.querySelectorAll("video[data-src]"));
+  if (!videos.length || !("IntersectionObserver" in window)) {
+    videos.forEach(function (v) { v.src = v.dataset.src; });
+    return;
+  }
+  var reduceMotion = window.matchMedia
+    && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var attached = [];   // videos holding an src, oldest first
+  var pending = [];    // videos waiting for a fetch slot
+  var inflight = 0;
+
+  function detach(v) {
+    var i = attached.indexOf(v);
+    if (i >= 0) attached.splice(i, 1);
+    if (v.dataset.state === "loading") inflight -= 1;
+    v.pause();
+    v.removeAttribute("src");
+    v.load();          // without this the buffer survives the src removal
+    v.dataset.state = "";
+  }
+
+  function evict() {
+    // Never evict what the reviewer is looking at, even above KEEP.
+    for (var i = 0; i < attached.length && attached.length > KEEP; i++) {
+      if (!attached[i].dataset.visible && attached[i].dataset.state === "ready") {
+        detach(attached[i]);
+        i -= 1;
+      }
+    }
+  }
+
+  function pump() {
+    while (inflight < MAX_PARALLEL && pending.length) {
+      var v = pending.shift();
+      if (v.dataset.state !== "queued") continue;
+      inflight += 1;
+      v.dataset.state = "loading";
+      v.preload = "auto";
+      v.src = v.dataset.src;
+      v.load();
+      attached.push(v);
+      evict();
+    }
+  }
+
+  function release(v) {
+    if (v.dataset.state !== "loading") return;
+    v.dataset.state = "ready";
+    inflight -= 1;
+    pump();
+  }
+
+  function request(v) {
+    if (v.dataset.state) return;   // queued | loading | ready
+    v.dataset.state = "queued";
+    pending.push(v);
+    pump();
+  }
+
+  function prioritize(v) {
+    var i = pending.indexOf(v);
+    if (i > 0) {
+      pending.splice(i, 1);
+      pending.unshift(v);
+    }
+  }
+
+  function play(v) {
+    if (reduceMotion) return;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // src not attached yet
+  }
+
+  var prefetch = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        request(v);
+      } else if (v.dataset.state === "queued") {
+        var i = pending.indexOf(v);
+        if (i >= 0) pending.splice(i, 1);
+        v.dataset.state = "";
+      } else if (v.dataset.state) {
+        detach(v);
+      }
+    });
+  }, {rootMargin: PREFETCH_MARGIN});
+
+  var viewport = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        v.dataset.visible = "1";
+        request(v);
+        prioritize(v);
+        play(v);
+      } else {
+        delete v.dataset.visible;
+        v.pause();
+      }
+    });
+  }, {threshold: PLAY_THRESHOLD});
+
+  videos.forEach(function (v) {
+    v.dataset.state = "";
+    // A clip that finished buffering must hand its fetch slot to the next one;
+    // "suspend" covers the browser deciding it has buffered enough, "error"
+    // covers a missing file (a dead slot would stall every later prefetch).
+    ["canplaythrough", "suspend", "error"].forEach(function (evt) {
+      v.addEventListener(evt, function () { release(v); });
+    });
+    // Autoplay is retried here because the viewport observer usually fires
+    // before the src is attached, so its play() call is rejected.
+    v.addEventListener("loadeddata", function () {
+      if (v.dataset.visible) play(v);
+    });
+    prefetch.observe(v);
+    viewport.observe(v);
+  });
+})();
+</script>
+</body></html>

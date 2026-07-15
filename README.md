@@ -4,6 +4,7 @@
   + funnel + dedup highlights) · **VIO Filter** (episode-level drift review) · **Yaw Review**
   (180° threshold calibration)
 - [umi400h / v1a_dedup_probe](umi400h/v1a_dedup_probe/index.html) — strategy-a dedup probe
+- [umi400h / v6_threshold_signoff](umi400h/v6_threshold_signoff/calm_blind.html) — calm_floor 模糊带盲判 40 样本(win_net 2–5m;判走路 vs 漂移;replay τ 盲看 tab 待 hands-only 重跑后加)
   (tau_vis .988, tau_act .065, motion off)
 - [umi400h / v5_replay_viovisual_study](umi400h/v5_replay_viovisual_study/index.html) — replay +
   vio_visual threshold-decision study. Tabs: **Replay** (IK re-playability, s2c) · **VIO-visual**
@@ -20,5 +21,6 @@ python3 -m sitegen.build --check  # verify the committed HTML is what the genera
 ```
 
 `v0_study` is rebuilt from the snapshots in `data/`. `v1a_dedup_probe` is a finished probe whose
+- [umi400h / v6_threshold_signoff](umi400h/v6_threshold_signoff/calm_blind.html) — calm_floor 模糊带盲判 40 样本(win_net 2–5m;判走路 vs 漂移;replay τ 盲看 tab 待 hands-only 重跑后加)
 upstream numbers are gone: it is re-rendered from its own published pages, so it still tracks the
 shared nav and design system, but its content can no longer be recomputed. See `CLAUDE.md`.
