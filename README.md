@@ -5,6 +5,10 @@
   (180° threshold calibration)
 - [umi400h / v1a_dedup_probe](umi400h/v1a_dedup_probe/index.html) — strategy-a dedup probe
   (tau_vis .988, tau_act .065, motion off)
+- [umi400h / v5_replay_viovisual_study](umi400h/v5_replay_viovisual_study/index.html) — replay +
+  vio_visual threshold-decision study. Tabs: **Replay** (IK re-playability, s2c) · **VIO-visual**
+  (frame-vs-VIO drift, s2d) · **Pose quality**. Full library: 200,551 segments (s2c) + 10,878 episodes
+  (s2d). Pipeline verdict version `v3_replay_viovisual_study`.
 
 ## Rebuilding
 
